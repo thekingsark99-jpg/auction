@@ -1,0 +1,58 @@
+## Server Side Integration
+
+In order for a purchase to be considered successfully completed, the server needs to validate the purchase and update the user's coins in the database.
+
+For this to happen, we will configure a webhook on the RevenueCat dashboard that will send a POST request to our server every time a purchase is made.
+
+### Store product IDs in the `.env` file
+The server must know what products are available for purchase, so we need to store the product IDs in the `.env` file.
+  
+  ```bash
+  PAYMENT_PRODUCT_50_COINS=biddo_app_coins_50
+  PAYMENT_PRODUCT_200_COINS=biddo_app_coins_200
+  PAYMENT_PRODUCT_500_COINS=biddo_app_coins_500
+  ```
+
+  These product IDs are found in the RevenueCat dashboard, in the `Products` tab.
+
+  Only cases for 50, 200, and 500 coins are handled. If you have more products, you also need to check the `src/config.ts` file, where the `PAYMENT_PRODUCTS` array is defined.
+
+  These product IDs will be sent to the mobile app, in order for it to know what products are available for purchase.
+
+  > If you have more products that offer the same amount of coins (e.g. 100 coins), you can add all the product IDs in the same value, separated by comma (`,`). For example:
+  > ```bash
+  > PAYMENT_PRODUCT_200_COINS=biddo_app_coins_200_ios,biddo_app_coins_200_android
+  > ```
+
+### Configure RevenueCat Webhook
+1. Go to the [RevenueCat dashboard](https://app.revenuecat.com/) and select your app.
+2. Go to the `Integrations` tab and click on the `+ Add Integration` button.
+3. Select `Webhooks` from the list of integrations.
+4. You will be asked to add a few details about the webhook:
+    - **Name**: Give the webhook a name that will help you identify it later.
+    - **URL**: Add the URL of your server where the webhook will send the POST request.
+    - **Authorization**: Add a secret key that will be used to authenticate the request on the server.
+    - **Environment**: Select the environment where the webhook will be active (Sandbox or Production).
+
+    An example of how the URL and the Authorization key should look like:
+
+    ```bash
+    URL: https://YOUR_SERVER_OR_YOUR_URL/payment/hook
+    Authorization: YOUR_DESIRED_SECRET_KEY (Make sure you copy this)
+    ```
+
+  > If you want to test the webhook locally, you can use a tool like [ngrok](https://ngrok.com/) to create a tunnel to your local server.
+
+5. The `YOUR_DESIRED_SECRET_KEY` value needs to be copied and added to the server's `.env` file, as it will be used to authenticate the webhook requests.
+
+This is how the field should be added to the `.env` file:
+
+```bash
+PAYMENT_AUTH_KEY=YOUR_DESIRED_SECRET_KEY
+```
+
+**If you want to test the payment flow, please also have a look at the following [tutorial](https://www.revenuecat.com/docs/test-and-launch/sandbox), on RevenueCat.**
+
+
+
+**On Android, your app will need to be accepted in the Play Store before you can test the in-app purchases. You can create a Closed testing track for this.**

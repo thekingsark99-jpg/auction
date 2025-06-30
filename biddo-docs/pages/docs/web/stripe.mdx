@@ -1,0 +1,133 @@
+import Image from 'next/image'
+import Zoom from 'react-medium-image-zoom'
+import 'react-medium-image-zoom/dist/styles.css'
+
+## Stripe Integration
+
+### Step 1: Create a Stripe Account
+
+If you don't already have a Stripe account, you can create one [here](https://dashboard.stripe.com/register).
+
+After you have created the account, you will be redirected to the dashboard.
+
+You are going to be asked to complete your business profile, in order to be able to receive payments, but you can skip this step if you only want to test how the implementation works.
+
+### Step 2: Check products
+
+A product is what the user buys. In this case, the product is the amount of coins that the user can buy.
+
+Inside the web application, the products are already created. You can find them inside the Admin Panel, under the "Payment" section.
+
+If you want to create new products or update the existing ones, you can do so.
+
+
+### Step 3: Integrate inside the NodeJS server
+
+After we have the products created, we need to get the Stripe secrey key and the product keys and add them inside the `.env` file in the NodeJS server.
+
+You can find the secret key in the Stripe dashboard, in the Developers section. (Developers -> API keys from the header)
+The product keys can be found in the product details, in the Stripe dashboard.
+
+Let's see how it should look like:
+1. Find the secret key
+
+<br/>
+<Zoom>
+<Image src="/web/stripe/4.png" alt="Buckets" width={1500} height={1500} />
+</Zoom>
+
+You will be redirected to the API keys section, where you can find the secret key.
+
+2. Find the product keys
+
+<br/>
+<Zoom>
+<Image src="/web/stripe/5.png" alt="Buckets" width={1500} height={1500} />
+</Zoom>
+
+Make sure that you have the product ids from all the products that you have created.
+
+After you have the keys, you need to add them inside the `.env` file in the NodeJS server.
+
+```bash
+STRIPE_SECRET_KEY=sk_test_51JG
+```
+
+### Step 4: Integrate inside the Web Application
+
+Inside the Web Application, you need to add the Stripe public key inside the `.env` file.
+
+You can find the public key in the Stripe dashboard, in the Developers section. (Developers -> API keys from the header).
+
+It should be above the secret key (Publishable key).
+
+Add this inside the `.env` file in the root of the Web Application:
+
+```bash
+NEXT_PUBLIC_STRIPE_PUBLIC_KEY=pk_test_51JG
+```
+
+### Step 5: Add Stripe Webhook
+
+In order to receive the payment status, you need to add a webhook inside the Stripe dashboard. This webhook will send a POST request to the server every time a payment is made.
+
+You can add a webhook by going to the Developers section in the Stripe dashboard and clicking on the "Webhooks" section.
+
+You will be able to see a "Add endpoint" button, that will allow you to add a new webhook.
+
+You need to add the URL of the server, followed by `/payment/stripe-webhook`.
+
+For example, if the server is running on `http://localhost:7777`, the webhook URL should be `http://localhost:7777/payment/stripe-webhook`.
+
+The problem when using localhost is that Stripe will not be able to send the POST request to the server, because it is running on your local machine.
+
+One option is to use a service like [ngrok](https://ngrok.com/) to create a tunnel to your local machine.
+
+The official option of testing the webhook is using the Stripe CLI. You can find more information about this [here](https://docs.stripe.com/webhooks).
+
+
+For demo purposes, I will be using ngrok to create a tunnel to my local machine. This will provide me with a public URL that I can use to test the webhook.
+
+
+1. Create a new webhook
+
+<br/>
+<Zoom>
+<Image src="/web/stripe/6.png" alt="Buckets" width={1500} height={1500} />
+</Zoom>
+
+2. Choose what events to be send through the webhook. The NodeJS server only handles the "checkout.session.completed" event, so you can select only this event.
+
+<br/>
+<Zoom>
+<Image src="/web/stripe/7.png" alt="Buckets" width={1500} height={1500} />
+</Zoom>
+
+3. After the webhook is created, you need to add the "Signing secret" of this webhook inside the `.env` file in the NodeJS server.
+
+<br/>
+<Zoom>
+<Image src="/web/stripe/8.png" alt="Buckets" width={1500} height={1500} />
+</Zoom>
+
+
+This is what you need to add inside the `.env` file in the NodeJS server:
+
+```bash
+STRIPE_WEBHOOK_SIGNING_SECRET=your_signing_secret
+```
+
+**Do not forget that if you remove a webhook and create a new one, you need to update the signing secret inside the `.env` file.**
+
+
+### Step 6: Test the integration
+
+Make sure that every time you change the `.env` file, you restart the server.
+
+The integration should work by default now. You can test it by going to the application and trying to buy coins.
+
+*If you're testing the integration, you can use the test card number `4242 4242 4242 4242` with any expiration date and CVC.*
+
+**If you want to receive payments inside a production environment, you need to complete the business profile in the Stripe dashboard.**
+
+**When going in production, do not forget to create another webhook for the production server and update the `.env` accordingly.**

@@ -1,0 +1,43 @@
+import Image from 'next/image'
+import Zoom from 'react-medium-image-zoom'
+import 'react-medium-image-zoom/dist/styles.css'
+
+## Paypal Integration
+
+Head over to [Paypal Developer](https://developer.paypal.com/) and create and account.
+Once you are on the dashboard:
+
+1. Click on "Testing Tools" -> "Sandbox Accounts"
+<br/>
+<Zoom>
+<Image src="/web/paypal/1.png" alt="Paypal" width={1500} height={1500} />
+</Zoom>
+
+
+2. Scroll down and view the details of the **business** account.
+<br/>
+<Zoom>
+<Image src="/web/paypal/2.png" alt="Paypal" width={1500} height={1500} />
+</Zoom>
+
+
+
+3. Under the **REST Api Apps** section, copy the **Client ID** and the **Secret**.
+<br/>
+<Zoom>
+<Image src="/web/paypal/3.png" alt="Paypal" width={1500} height={1500} />
+</Zoom>
+
+4. Add the **Client ID** and the **Secret** inside the `.env` file in the NodeJS server.
+
+```bash
+PAYPAL_CLIENT_ID=
+PAYPAL_CLIENT_SECRET=
+```
+
+## Test the integration
+
+Take note that when you try to test the integration, you will be redirected to the Paypal login page. In this page, you need to use the credentials of the **Personal** account. (Check again step 2 where you will have the credentials of the **Personal** account)
+
+
+

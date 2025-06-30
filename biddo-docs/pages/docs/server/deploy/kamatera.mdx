@@ -1,0 +1,112 @@
+import Image from 'next/image'
+import Zoom from 'react-medium-image-zoom'
+import 'react-medium-image-zoom/dist/styles.css'
+
+## Deploy the server
+
+We are going to deploy the server to a virtual machine on [Kamatera](https://www.kamatera.com/). This process should work on any other cloud provider as well. All you need to have is access to a virtual machine with a public IP address.
+
+We are taking into consideration that you already have a virtual machine running with Ubuntu.
+
+You also need to have access to a PostgreSQL database. If you don't have a PostgreSQL database, there are plenty of cloud providers that offer managed PostgreSQL databases.
+(One example is [Render](https://render.com/)). If you don't want to use managed database, you can always follow the steps to install PostgreSQL on your virtual machine. A nice tutorial can be found [here](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-postgresql-on-ubuntu-22-04).
+
+
+
+Make sure you have docker installed on the virtual machine. You can install docker by running the following command, while connected to the virtual machine:
+
+```bash
+sudo apt install docker.io
+```
+
+You can also find [here](https://docs.docker.com/engine/install/ubuntu/) a tutorial on how you can install Docker. 
+### Publish the server
+
+1. Create a new file inside the `scripts` directory called `deploy.sh` and copy the content from the `scripts/deploy_example.sh` file.
+
+   - make sure that you replace the `REMOTE_USER`, `REMOTE_IP` and `REMOTE_DIR` with the correct values.
+    > `REMOTE_USER` is the user that you use to connect to the virtual machine.
+    > `REMOTE_IP` is the IP of the virtual machine.
+    > `REMOTE_DIR` is the directory where you want to deploy the server. (e.g. `~/biddo`)
+
+   - make sure you give execute permissions to the script by running the following command from a terminal in the root of the server:
+
+    ```bash
+    chmod +x ./scripts/deploy.sh
+    ```
+
+    <br/>
+    <Zoom>
+    <Image
+      src="/server/deployment/1.png"
+      alt="deploy script"
+      width={1500}
+      height={1500}
+    />
+    </Zoom>
+    
+
+
+2. Create a new file inside the root of the server called `ecosystem.config.cjs` and copy the content from the `ecosystem.config.example.cjs`
+   - make sure that you replace the values from the `env` object with the correct values. (These are the database credentials that you use to connect to the PostgreSQL database)
+   <br/>
+   <Zoom>
+    <Image
+      src="/server/deployment/2.png"
+      alt="ecosystem"
+      width={1500}
+      height={1500}
+    />
+    </Zoom>
+    > This file is used by PM2 to start the server. You can find more information about the ecosystem file [here](https://pm2.keymetrics.io/docs/usage/application-declaration/)
+
+   <br/>
+
+3. Open a terminal in the root of the server and run the following command to deploy the server:
+
+```bash
+npm run publish
+```
+
+4. Check if the server is running by accessing the IP of the virtual machine in the browser. You should see a message similar to `API HTTP SERVER 1.0.0`.
+
+> You can also connect to the server using SSH and check the status of the docker container by running the following command:
+```bash
+docker ps -a
+```
+You should see a similar output as the following:
+<br/>
+<Zoom>
+<Image
+  src="/server/deployment/3.png"
+  alt="Status"
+  width={1500}
+  height={1500}
+/>
+</Zoom>
+
+<br/>
+
+> !!Note!! If you did not implement the `Integrate Google Cloud Storage` tutorial, make sure that the server has enough access to store the files in the filesystem. If you implemented the tutorial, make sure that the server has access to the Google Cloud Storage bucket.
+
+
+5. See server logs
+    - You need to take the container ID and run connect to it, by running the following command:
+    ```bash
+    docker exec -it <container-id> sh
+    ```
+
+    - You can see the logs of the server by running the following command:
+    ```bash
+    pm2 logs
+    ```
+
+    - You can also see the logs of the server by running the following command:
+    ```bash
+    docker logs <container-id>
+    ```
+
+    > You can find the container id by running the `docker ps -a` command.
+
+<br/>
+**Congratulations! You have successfully deployed the server to a virtual machine.**

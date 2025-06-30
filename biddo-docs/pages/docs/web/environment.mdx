@@ -1,0 +1,25 @@
+## Environment variables
+
+Create a new file called `.env.development` in the root of the project. This file will contain all the environment variables that are used in the project.
+
+**You can copy the content from the `.env.example` file and paste it into the `.env.development` file.**
+
+```bash
+NEXT_PUBLIC_SERVER_URL=http://localhost:7777
+NEXT_PUBLIC_SERVER_WS_URL=ws://localhost:7777
+
+NEXT_PUBLIC_FACEBOOK_APP_ID=
+GOOGLE_MAPS_API_KEY=
+NEXT_PUBLIC_STRIPE_PUBLIC_KEY=
+```
+
+
+**NEXT_PUBLIC_SERVER_URL** - The URL of the server where the NodeJS server is running. This is used in the mobile app to connect to the server.
+
+**NEXT_PUBLIC_SERVER_WS_URL** - The URL of the WebSocket server where the NodeJS server is running. This is used in the mobile app to connect to the server. Usually, this is the same as the SERVER_URL, but instead of the "http(s)" protocol, it uses the "ws(s)" protocol.
+
+**NEXT_PUBLIC_FACEBOOK_APP_ID** - The Facebook App ID. This is only used whenever a user wants to share an auction/profile to Facebook. You can find the App ID in the Facebook Developer Console.
+
+**GOOGLE_MAPS_API_KEY** - The API key for Google Maps. *(You will find out what value to add here in a later section)*
+
+**NEXT_PUBLIC_STRIPE_PUBLIC_KEY** - The public key for Stripe. *(You will find out what value to add here in a later section)*

@@ -1,0 +1,124 @@
+import Image from 'next/image'
+import Zoom from 'react-medium-image-zoom'
+import 'react-medium-image-zoom/dist/styles.css'
+
+## Code Architecture
+
+The server is built using the [Express.js](https://expressjs.com/) framework and the [Sequelize](https://sequelize.org/) ORM.
+
+The codebase is organized in a way that makes it easy to understand and navigate. Here are some of the key components:
+
+- **Routes**: The routes are defined in the `src/api/routes` directory. Each route is defined in a separate file and is responsible for handling a specific set of API endpoints.
+
+<br />
+<Zoom>
+  <Image
+    src="/server/architecture/1.png"
+    alt="Routes"
+    width={1500}
+    height={1500}
+  />
+</Zoom>
+
+---
+
+- **Middlewares**: The middlewares are defined in the `src/api/middlewares` directory. Each middleware is defined in a separate file and is responsible for handling a specific set of tasks.
+  - **auth**: The authentication middleware is responsible for verifying the user's identity and ensuring that the user is authorized to access the requested resource.
+  - **cache**: The cache middleware is responsible for caching the response of the API endpoints to improve performance.
+  - **rate-limiter**: The rate limiter middleware is responsible for limiting the number of requests that a user can make to the server in a given period of time.
+  - **upload** The upload middleware is responsible for handling file uploads.
+  - **validate-requests**: The validate requests middleware is responsible for validating the request body, query parameters, and headers.
+
+<br/>
+<Zoom>
+<Image
+  src="/server/architecture/2.png"
+  alt="Middlewares"
+  width={1500}
+  height={1500}
+/>
+</Zoom>
+
+---
+
+- **Constants**: The constants are defined in the `src/constants` directory. We define all the constants that are used in the project in this directory.
+
+<br/>
+<Zoom>
+<Image
+  src="/server/architecture/3.png"
+  alt="Constants"
+  width={1500}
+  height={1500}
+/>
+</Zoom>
+
+---
+
+- **Database**: The database migrations, seeds and setup are defined in the `src/database` directory. We use Sequelize to manage the database schema and migrations.
+
+<br/>
+<Zoom>
+<Image
+  src="/server/architecture/4.png"
+  alt="Database"
+  width={1500}
+  height={1500}
+/>
+</Zoom>
+
+---
+
+- **Push Notifications**: The push notifications are handled using the `src/lib/notifications` directory. We use Firebase to send push notifications to the users. Each notification is defined in a separate file.
+
+<br/>
+<Zoom>
+<Image
+  src="/server/architecture/5.png"
+  alt="Push Notifications"
+  width={1500}
+  height={1500}
+/>
+</Zoom>
+
+---
+
+- **Socket.io**: The real-time communication is handled using the `src/ws` directory. We use Socket.io to establish a real-time connection between the server and the client.
+
+<br/>
+<Zoom>
+<Image
+  src="/server/architecture/6.png"
+  alt="Socket"
+  width={1500}
+  height={1500}
+/>
+</Zoom>
+
+---
+
+- **Modules**: For each entity in the system, we define a separate module in the `src/modules` directory. Each module is responsible for handling the business logic related to that entity. Each of these modules contains 3 files:
+  - **controller**: The controller is responsible for handling the incoming requests and sending the response back to the client.
+  - **repository**: The repository is responsible to interact with the database and perform CRUD operations.
+  - **model**: The model is responsible for defining the schema of the entity and interacting with the database.
+
+<br/>
+<Zoom>
+<Image
+  src="/server/architecture/7.png"
+  alt="Modules"
+  width={1500}
+  height={1500}
+/>
+</Zoom>
+-------------
+
+The flow inside the server is as follows:
+
+1. The request comes to the routes.
+2. The routes call the middlewares.
+3. The middlewares perform the necessary tasks.
+4. A controller is called to handle the request.
+5. The controller interacts with the repository to perform CRUD operations.
+6. The repository interacts with the database.
+7. The response is sent back to the client from the controller

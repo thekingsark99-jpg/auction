@@ -1,0 +1,90 @@
+import Image from 'next/image'
+import Zoom from 'react-medium-image-zoom'
+import 'react-medium-image-zoom/dist/styles.css'
+
+## Google Maps integration
+
+1. Go to Google Cloud Platform on https://console.cloud.google.com/
+2. Click on console.
+
+<br/>
+<Zoom>
+<Image
+  src="/mobile-app/google-maps/1.png"
+  alt="Google Cloud Platform"
+  width={1500}
+  height={1500}
+/>
+</Zoom>
+
+3. Select your Firebase Project
+
+<br/>
+<Zoom>
+
+<Image
+  src="/mobile-app/google-maps/2.png"
+  alt="Google Cloud Platform"
+  width={1500}
+  height={1500}
+/>
+</Zoom>
+
+4. Search for Google Maps API
+
+<br/>
+<Zoom>
+
+<Image
+  src="/mobile-app/google-maps/3.png"
+  alt="Google Cloud Platform"
+  width={1500}
+  height={1500}
+/>
+</Zoom>
+
+5. Enable Google Maps API and get the API key
+
+<br/>
+<Zoom>
+
+<Image
+  src="/mobile-app/google-maps/4.png"
+  alt="Google Cloud Platform"
+  width={1500}
+  height={1500}
+/>
+</Zoom>
+
+6. Add the key to the `.env` file in the root of the project
+
+```env
+GOOGLE_MAPS_API_KEY=YOUR_API_KEY
+```
+
+<br/>
+
+
+## Secure your API key
+If you are just playing around in development mode, you can skip this, but if you are deploying the server to production, you should restrict the API key.
+
+Normally, the API key that is provided inside the Google Clous Platform is not restricted by any means. You can restrict the API key to only be used by your IP or the IP of the machine in which your server is running to.
+
+Furtheremore, only a small list of services are used in the app, so you can restrict the API key to only allow those services:
+
+- Geocoding API
+- Geolocation API
+- Maps JavaScript API
+- Maps Static API
+- Places API
+
+<br/>
+
+<Zoom>
+<Image
+  src="/server/google-maps/1.png"
+  alt="Google Cloud Platform"
+  width={1500}
+  height={1500}
+/>
+</Zoom>

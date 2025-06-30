@@ -1,0 +1,84 @@
+import Image from 'next/image'
+import Zoom from 'react-medium-image-zoom'
+import 'react-medium-image-zoom/dist/styles.css'
+
+## Let's enable RevenueCat in your app
+
+Make sure you have an account on [RevenueCat](https://www.revenuecat.com/) and you have created an app in the dashboard. (Don't forget to place a valid Service Account Credentials JSON file with proper permissions when creating the project. See more information [here](https://www.revenuecat.com/docs/service-credentials/creating-play-service-credentials)).
+
+We'll enable the users to buy coins from the app, and we'll use the RevenueCat SDK to handle the in-app purchases.
+
+The users will have 3 options to buy coins:
+- 50 coins
+- 200 coins
+- 500 coins
+
+**Make sure that you have followed `Deploy` section before continuing with this tutorial, as you will need to devine some "In-App Purchases" in both App Store and Goole Play Store.**
+
+
+You can always follow alone the steps from the [official documentation](https://www.revenuecat.com/docs/welcome/overview) if you want to have a deeper understanding of the RevenueCat SDK.
+
+
+### Add Google Play In-app products
+
+1. Go to the [Google Play Console](https://play.google.com/console/developers) and select your app.
+2. Go to `Monetize` -> `Products` -> `Add in-app products`.
+3. Add the following products:
+    - 50 coins
+    - 200 coins
+    - 500 coins
+
+  > In order to keep thinks simpler, make sure you are using consisting naming for the product IDs. For example, you can use `coins_50`, `coins_200`, `coins_500`.
+
+  *Here is an example of how the products should look like:*
+    <br/>
+    <Zoom>
+    <Image
+      src="/mobile-app/payments/1.png"
+      alt="Google Play products"
+      width={1500}
+      height={1500}
+    />
+    </Zoom>
+
+### Add App Store In-app products
+
+1. Go to the [App Store Connect](https://appstoreconnect.apple.com/) and select your app.
+2. Go to `In-App Purchases` -> `+` -> `Consumable`.
+3. Add the following products:
+    - 50 coins
+    - 200 coins
+    - 500 coins
+
+  > In order to keep thinks simpler, make sure you are using consisting naming for the product IDs. For example, you can use `coins_50`, `coins_200`, `coins_500`.
+
+  *Here is an example of how the products should look like:*
+    <br/>
+    <Zoom>
+    <Image
+      src="/mobile-app/payments/2.png"
+      alt="App Store products"
+      width={1500}
+      height={1500}
+    />
+    </Zoom>
+
+**In order to test the in-app purchases using an iOS simulator, you need to enable StoreKit. You can do this by following the steps from [this tutorial](https://www.revenuecat.com/blog/engineering/ios-in-app-subscription-tutorial-with-storekit-2-and-swift/#h-setting-up-storekit-configuration-file).**
+
+
+### Add RevenueCat Products
+
+1. Go to the [RevenueCat Dashboard](https://app.revenuecat.com/) and select your project.
+2. Go to `Products` tab and add the 6 products  (3 for iOS and 3 for Android) with the same IDs as the ones you have defined in the App Store and Google Play Store.
+
+  *Here is an example of how the products should look like:*
+    <br/>
+    <Zoom>
+    <Image
+      src="/mobile-app/payments/3.png"
+      alt="RevenueCat products"
+      width={1500}
+      height={1500}
+    />
+    </Zoom>
+

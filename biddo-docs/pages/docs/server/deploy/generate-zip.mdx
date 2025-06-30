@@ -1,0 +1,36 @@
+
+
+## Build and zip the server
+
+***Make sure you have followed the Firebase Integration step and you have run "npm install" or "yarn install" inside a root folder terminal.***
+
+This use case is useful when you have the possibility to drag and drop the ZIP file to your hosting provider.
+
+The exported ZIP file contains the server files and the environment variables.
+
+<br/>
+
+<iframe width="832" height="500" src="https://cdn.tanna.app/biddo/build-and-zip.mp4" title="Build and zip the server" allow="autoplay; fullscreen" allowfullscreen></iframe>
+<br/>
+
+
+After the zip is created, you can upload it to your hosting provider.
+
+Make sure to unzip the file and run the server.
+
+
+In order to run the server, you need to open up a terminal in the unziped folder and run the following command:
+
+```bash
+node dist/index.js
+```
+or
+
+```bash
+pm2 startOrReload ecosystem.config.js 
+```
+
+
+
+Make sure you have [Node.js](https://nodejs.org/en/download/) installed if you are using the first command.
+If you are using the second command, you need to have [PM2](https://pm2.keymetrics.io/) installed.

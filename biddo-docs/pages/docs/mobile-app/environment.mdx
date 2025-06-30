@@ -1,0 +1,29 @@
+
+## Environment variables
+
+Create a new file called `.env` in the root of the project. This file will contain all the environment variables that are used in the project.
+
+**You can copy the content from the `.env.example` file and paste it into the `.env` file.**
+
+```bash
+SERVER_URL=http://localhost:7777
+WS_SERVER_URL=ws://localhost:7777
+
+CONFIDENTIALITY_LINK=
+
+GOOGLE_MAPS_API_KEY=
+REVENUE_CAT_IOS_API_KEY=
+REVENUE_CAT_GOOGLE_API_KEY=
+```
+
+**SERVER_URL** - The URL of the server where the NodeJS server is running. This is used in the mobile app to connect to the server.
+
+**WS_SERVER_URL** - The URL of the WebSocket server where the NodeJS server is running. This is used in the mobile app to connect to the server. Usually, this is the same as the SERVER_URL, but instead of the "http(s)" protocol, it uses the "ws(s)" protocol.
+
+**CONFIDENTIALITY_LINK** - The link to the confidentiality policy of the application. This is used in the mobile app to show the confidentiality policy. It should be a link to a webpage where the confidentiality policy is described. (After you setup the web app, you will already have a "terms" page that you can use here).
+ 
+**GOOGLE_MAPS_API_KEY** - The API key for Google Maps. *(You will find out what value to add here in a later section)*
+
+**REVENUE_CAT_IOS_API_KEY** - The API key for RevenueCat for iOS.*(You will find out what value to add here in a later section)*
+
+**REVENUE_CAT_GOOGLE_API_KEY** - The API key for RevenueCat for Google. *(You will find out what value to add here in a later section)*

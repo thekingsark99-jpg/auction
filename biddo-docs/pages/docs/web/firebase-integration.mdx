@@ -1,0 +1,30 @@
+import Image from 'next/image'
+import Zoom from 'react-medium-image-zoom'
+import 'react-medium-image-zoom/dist/styles.css'
+
+
+## Firebase Integration
+
+1. Make sure that inside the Firebase Console project settings, you have enabled the Web SDK.
+
+After the Web SDK is enabled, you should see something like this:
+
+<br/>
+<Zoom>
+<Image src="/web/firebase/1.png" alt="Firebase" width={1500} height={1500} />
+</Zoom>
+
+**Notice the `firebaseConfig` object.**
+
+2. In the root of the project, inside the `src` folder, there already exists a file called `firebase.example.ts`. 
+
+You need to create a new file called `firebase.ts` (in the same `src` folder) and copy the content from `firebase.example.ts` to `firebase.ts`.
+
+3. Inside the `firebase.ts` file, you need to replace the `firebaseConfig` object with the one from the Firebase Console.
+
+Your file should look something like this:
+
+<br/>
+<Zoom>
+<Image src="/web/firebase/2.png" alt="Firebase" width={1500} height={1500} />
+</Zoom>

@@ -1,0 +1,114 @@
+import Image from 'next/image'
+import Zoom from 'react-medium-image-zoom'
+import 'react-medium-image-zoom/dist/styles.css'
+
+## Setup AdMob
+
+The AdMob integration in the Mobile Auction App allows you to monetize your application by displaying ads to users. AdMob offers a range of ad formats, including banner, interstitial, and rewarded ads, which can be seamlessly integrated into your app's UI. This feature aims to balance user engagement with revenue generation in a user-friendly manner.
+
+The first think that you need to do is to create an AdMob account and set up your app in the AdMob dashboard. Once you have created your AdMob account and set up your app, you will receive an AdMob App ID, which you will need to add to your app's configuration.
+
+The AdMob account can be created by visiting the [AdMob website](https://admob.google.com/).
+
+*The account creation step could take some time because you need to provide banking information, sign contracts, and so on.*
+
+
+
+### Get AdMob App ID
+
+To get your AdMob App ID, follow these steps:
+
+1. Log in to your AdMob account.
+2. Click on the "Apps" tab in the sidebar.
+3. Click on the "Add App" button.
+4. Select the platform for your app (Android or iOS).
+
+*You will need 2 application IDs: one for Android and one for iOS.*
+
+This is how the AdMob App ID looks like:
+<br />
+<Zoom>
+  <Image
+    src="/mobile-app/admob/1.png"
+    alt="AppId"
+    width={1500}
+    height={1500}
+  />
+</Zoom>
+<br />
+
+### Add AdMob App ID to your App
+
+For this step, you need to open the flutter app you got inside the zip file. You will need to add you AdMob application ids to
+both the Android and iOS projects.
+
+#### Android
+
+1. Open the `AndroidManifest.xml` file located in `android/app/src/main/AndroidManifest.xml`.
+2. Add the following meta-data tag inside the `<application>` tag:
+
+```xml
+<meta-data
+    android:name="com.google.android.gms.ads.APPLICATION_ID"
+    android:value="YOUR_ADMOB_APP_ID"/>
+```
+
+*There might already be a meta-data tag with the name `com.google.android.gms.ads.APPLICATION_ID`. If so, you can replace the value with your AdMob App ID.*
+<br />
+<Zoom>
+  <Image
+    src="/mobile-app/admob/2.png"
+    alt="Android"
+    width={800}
+    height={800}
+  />
+</Zoom>
+<br />
+
+#### iOS
+
+1. Open the `Info.plist` file located in `ios/Runner/Info.plist`.
+2. Add the following key-value pair:
+
+```xml
+<key>GADApplicationIdentifier</key>
+<string>YOUR_ADMOB_APP_ID</string>
+```
+
+*There might already be a key-value pair with the key `GADApplicationIdentifier`. If so, you can replace the value with your AdMob App ID.*
+<br />
+<Zoom>
+  <Image
+    src="/mobile-app/admob/3.png"
+    alt="iOS"
+    width={800}
+    height={800}
+  />
+</Zoom>
+<br />
+
+
+### Test AdMob Ads
+
+To test AdMob ads in your app, you can use test ad units provided by Google. These test ad units will display test ads instead of real ads, allowing you to verify that the AdMob integration is working correctly.
+
+The application should run test ads by default, after you have done the previous steps.
+
+For whenever you want to go live with your own ads, you will need to create your own ad units inside the AdMob dashboard.
+
+For a more detailed guide on how to set up your ad units, you can refer to [this](https://codelabs.developers.google.com/codelabs/mobile-app/admob-ads-in-flutter#2) guide.
+
+After you have your ad units, you can use the Admin Panel to add them to your app. **Remember that the Admin Panel will only work if you have the NodeJS server running.**
+
+<br />
+<Zoom>
+  <Image
+    src="/mobile-app/admob/4.png"
+    alt="Admin Panel"
+    width={800}
+    height={800}
+  />
+</Zoom>
+<br />
+
+From the same Admin Panel, you can either enable or disable the ads inside the app or change the coins reward for the rewarded ads.

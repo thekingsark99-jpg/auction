@@ -1,0 +1,101 @@
+import Image from 'next/image'
+import Zoom from 'react-medium-image-zoom'
+import 'react-medium-image-zoom/dist/styles.css'
+
+
+## Add a new language
+
+In order for the new language to work in the entire application, you need to add it to the mobile application, the web application and the server.
+
+### Add language to server
+
+There are data that need to be translated in the server side of the application, like the categories and the notifications content.
+
+In order to add a new language to the server, you need to open a terminal in the root of the server and run the following command (make sure you stopped the server before running this command):
+
+```bash
+npm run add:language <LANGUAGE_CODE>
+```
+
+Replace `<LANGUAGE_CODE>` with the code of the language you want to add. For example, if you want to add French, you would run:
+
+```bash
+npm run add:language fr
+```
+
+This will automatically create a seeding file and the categories and the notifications content will be automatically translated the next time you run the server.
+
+You can see an example in the following video.
+
+<br/>
+
+<video width="832" height="500" src="https://tanna.b-cdn.net/biddo/add-new-language-to-server.mov" title="Running web in development mode" controls autoplay></video>
+<br/>
+
+
+
+### Add a language to the web application
+
+1. Make sure you have a SVG image representing the flag of the new language. After you have the SVG image, you need to add it to the `public/assets/svg/flags` folder in the web application.
+
+<br/>
+<Zoom>
+<Image src="/tutorials/language/1.png" alt="New language" width={1500} height={1500} />
+</Zoom>
+<br/>
+
+
+2. Make sure you take one file from the `src/app/i18n/locales` and translate it into the language you are trying to add. (You can use Chat GPT in order to translate it faster). After you have the translation file, use the language short code as the file name. For example, if you are adding French, you would create a file called `fr.json`. Add it in the `src/app/i18n/locales` folder.
+
+<br/>
+<Zoom>
+<Image src="/tutorials/language/2.png" alt="New language" width={1500} height={1500} />
+</Zoom>
+<br/>
+
+3. Open the `src/app/i18n/settings.ts` file and add your language short code to the `languages` available array.
+
+<br/>
+<Zoom>
+<Image src="/tutorials/language/3.png" alt="New language" width={1500} height={1500} />
+</Zoom>
+<br/>
+
+4. Open the `src/constants/languages.ts` file and add the new language to the `LANGUAGES_META` object. Make sure to respect the structure of the object. You will need to add the language icon name, so make sure you are setting the correct one.<br/>
+
+<br/>
+<Zoom>
+<Image src="/tutorials/language/4.png" alt="New language" width={1500} height={1500} />
+</Zoom>
+<br/>
+
+
+5. Open the `src/components/common/formatted-date.tsx` and add a new import for the new language, similar to the existing ones.
+
+That's it! You have successfully added a new language to the web application.
+
+<br/>
+
+### Add a language to the mobile application
+
+1. Make sure you have a SVG image representing the flag of the new language. After you have the SVG image, you need to add it to the `assets/icons/svg/flags` folder in the Flutter application.
+
+<br/>
+<Zoom>
+<Image src="/tutorials/language/5.png" alt="New language" width={1500} height={1500} />
+</Zoom>
+<br/>
+
+2.  Make sure you take one file from the `lib/lang` and translate it into the language you are trying to add. (You can use Chat GPT in order to translate it faster). After you have the translation file, use the language short code as the file name. For example, if you are adding French, you would create a file called `fr.json`. Add it in the `lib/lang` folder.
+
+*You can take the translation file from the web application if you already created one, but take into account that inside the web application, the interpolations are done using `{{` and `}}`, while in the mobile application, the interpolations are done using `{` and `}`.*
+
+3. Open the `lib/utils/constants.dart` file and add your new language to the `LANGUAGES` list. Make sure to respect the structure of the object.
+
+<br/>
+<Zoom>
+<Image src="/tutorials/language/6.png" alt="New language" width={1500} height={1500} />
+</Zoom>
+<br/>
+
+That's it! You have successfully added a new language to the mobile application.

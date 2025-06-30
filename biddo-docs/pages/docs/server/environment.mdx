@@ -1,0 +1,54 @@
+import Image from 'next/image'
+import Zoom from 'react-medium-image-zoom'
+import 'react-medium-image-zoom/dist/styles.css'
+
+## Environment variables
+
+Create a new file called `.env` in the root of the project. This file will contain all the environment variables that are used in the project.
+
+**You can copy the content from the `.env.example` file and paste it into the `.env` file.**
+
+```bash
+APP_ENV=development
+NODE_ENV=development
+PORT=7777
+NODE_DEBUGGER_PORT=9229
+APP_VERSION=1.0
+
+# Postgres
+POSTGRES_SERVER=biddo_postgres
+POSTGRES_PORT_EXTERNAL=6543
+POSTGRES_USER=biddo
+POSTGRES_PASSWORD=biddo
+POSTGRES_DB=biddo-dev
+POSTGRES_CONNECTION_MAX_POOL=90
+SEQUELIZE_DEBUG=0
+POSTGRES_HOST=biddo_postgres
+```
+
+***In the `.env.example` file, there might be more variables than described above. We will cover them all throughout the documentation.***
+
+<br/>
+
+<strong>  Make sure that POSTGRES_SERVER is correct.</strong>
+<br/>
+
+<br/>
+<Zoom>
+<Image
+  src="/server/env/1.png"
+  alt="Environment Variables"
+  width={1500}
+  height={1500}
+/>
+</Zoom>
+
+When you are running the project in development mode, you will use the database that is running in the Docker container. The `POSTGRES_SERVER` and `POSTGRES_HOST` should be the same as the service name in the `docker-compose.yml` file.
+
+
+When you are going to run the project in production mode, you will need to change the `POSTGRES_SERVER` and `POSTGRES_HOST` to the IP address of the server where the database is running (We'll cover this in a later section).
+
+
+**IMPORTANT**
+
+Create a **ecosystem.config.cjs** file in the root of the project and copy the content from **ecosystem.config.example.cjs** inside of it. This file will contains credentials for your production server. You don't need to add the credentials now, but you will need to add them when you deploy the project to a production server.

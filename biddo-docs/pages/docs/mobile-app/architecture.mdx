@@ -1,0 +1,96 @@
+import Image from 'next/image'
+import Zoom from 'react-medium-image-zoom'
+import 'react-medium-image-zoom/dist/styles.css'
+
+## Code Architecture
+
+The codebase is organized in a way that makes it easy to understand and navigate. Here are some of the key components:
+
+<br/>
+<Zoom>
+<Image
+  src="/mobile-app/architecture/1.png"
+  alt="General"
+  width={1500}
+  height={1500}
+/>
+</Zoom>
+
+
+- **Core**: Inside the `lib/core` folder, you will find the core functionality of the app. This includes the state management, the API calls, the models and the services.
+- **lang**: Inside the `lib/lang` folder, you will find the translations for the app. Each language has its own file.
+- **screens**: Inside the `lib/screens` folder, you will find the screens of the app. Each screen has its own folder with the components and styles. If the users navigates from a main screen to another screen, the new screen will be inside the main screen folder.
+- **theme**: Inside the `lib/theme` folder, you will find the theme of the app. This includes the colors, the fonts and the sizes for both the light and dark mode.
+- **utils**: Inside the `lib/utils` folder, you will find the utility functions used across the app.
+- **widgets**: Inside the `lib/widgets` folder, you will find the widgets of the app. These are reusable components that can be used across the app.
+
+
+### Core
+
+Inside the `lib/core` folder, you will find 3 main folders:
+- **models**: The models are responsible for defining the structure of the data that is used in the app. Each model is defined in a separate file and is responsible for handling a specific set of data.
+- **repositories**: The sole purpose of a repository is to handle fetch requests to the API.
+- **controllers**: The main purpose of a controller is to keep the state of the app. It is also responsible for handling the business logic of the app. If it needs data from the server, it usually imports a repository and fetches the data from there. The controllers are imported in the screens (not the repositories or the other way around). There is usually a controller for each model. There might be other controllers that keep state that is not related to a model.
+
+> The state of the application is kept using the [GetX](https://pub.dev/packages/get) package. This package is used for state management, dependency injection and route management.
+
+> Inside the same folder, there is a `getx.dart` file that initializes the GetX package, together with all the repositories, controllers and services.
+
+<br/>
+<Zoom>
+
+<Image
+  src="/mobile-app/architecture/2.png"
+  alt="Core"
+  width={1500}
+  height={1500}
+/>
+</Zoom>
+
+
+### Lang
+
+Inside the `lib/lang` folder, you will find the translations for the app. Each language has its own file. The translations are used across the app to display the text in the correct language.
+
+The translations are defined in a JSON format. Each language has its own JSON file. The JSON file is structured in a way that makes it easy to add new translations or update existing ones.
+
+<br/>
+<Zoom>
+
+<Image
+  src="/mobile-app/architecture/4.png"
+  alt="Core"
+  width={1500}
+  height={1500}
+/>
+</Zoom>
+
+
+
+### Screens
+
+The application has 7 main screens:
+- **Home**: The home screen is the first screen that the user sees when they open the app. It displays a list of the most recent auctions.
+- **Favourites**: The favourites screen displays a list of the auctions that the user has favourited.
+- **Create auction**: The create auction screen allows the user to create a new auction.
+- **Chat**: The chat screen allows the user to chat with other users.
+- **Settings**: The settings screen allows the user to change their settings.
+- **Authenticate**: The authenticate screen allows the user to sign in or sign up.
+- **Auction details**: The auction details screen displays the details of an auction.
+
+Each of these screens have a dedicated folder inside the `lib/screens` folder. If inside a specific screen there are widgets that are only used in that screen, they will be inside the screen's folder, in another `widgets` folder. If a widget is used in multiple screens, it will be inside the `lib/widgets` folder.
+
+In other words, if you navigate further deep into screens, the structure of the folders will usually be in a similar manner (The nesting of the folders increases).
+
+### Theme
+
+Inside the `lib/theme` folder, there are 2 important files: `dark.dart` and `light.dart`. These files define the colors, fonts and sizes for both the light and dark mode. The theme is used across the app to style the components.
+
+The application has custom colors and font styles. The custom styles are defined in the `extensions/base.dart` file. This extension is created only to make it easier to use the custom styles across the app. An example of how to use the custom styles is shown below:
+
+```
+Text(
+  'Hello World',
+  style: style: Theme.of(context).extension<CustomThemeFields>()!.title,
+)
+```

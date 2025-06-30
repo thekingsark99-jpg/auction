@@ -1,0 +1,52 @@
+import Image from 'next/image'
+import Zoom from 'react-medium-image-zoom'
+import 'react-medium-image-zoom/dist/styles.css'
+
+## Settings you can change
+
+On opening the admin panel, if you select the `settings` tab you will see only one record. This record is the settings record. You can change the following settings:
+
+### General settings
+- **Default Currency**: This is the default currency that will be used in the app. You can change this to any currency you want. 
+- **Auction Active Time In Hours**: This is the time in hours that an auction will be active for. After this time, no bids can be placed on the auction.
+- **Max Allowed Distance Between Users In KM**: This is the maximum distance between two users in kilometers. If the distance between two users is greater than this value, one cannot bid on the other's auction.
+- **Max Product Price**: This is the maximum price that an auction can be listed for. If a user tries to list a product for a price greater than this value, the product will not be listed.
+- **Promotion Coins Cost**: This is the cost in coins for promoting an auction. If a user wants to promote an auction, they will have to pay this amount of coins.
+- **Default Product Image Url**: If no image is uploaded for a auction, this image will be used as the default image for the auction.
+- **Free Auctions Count**: This is the number of free auctions that a user can list. After this number of free auctions, the user will have to pay coins to list an auction.
+- **Free Bids Count**: This is the number of free bids that a user can place. After this number of free bids, the user will have to pay coins to place a bid.
+- **Auctions Coins Cost**: This is the cost in coins for listing an auction. If a user wants to list an auction, they will have to pay this amount of coins.
+- **Bids Coins Cost**: This is the cost in coins for placing a bid. If a user wants to place a bid, they will have to pay this amount of coins.
+- **Automatically Accept Bid On Auction Close**: This is a boolean value that determines if the highest bid on an auction will be automatically accepted when the auction closes.
+
+### Mobile App Only Settings
+- **Confidentiality Link **: This is the link to the confidentiality policy of the app. This link will be shown in the mobile app.
+- **Revenue Cat Android Key**: This is the key for the revenue cat android sdk. This key is used to track in app purchases in the app.
+- **Revenue Cat iOS Key**: This is the key for the revenue cat iOS sdk. This key is used to track in app purchases in the app.
+- **Ads enabled on Android**: This is a boolean value that determines if ads are enabled on the android app.
+- **Ads enabled on iOS**: This is a boolean value that determines if ads are enabled on the iOS app.
+- **Android Ads Banner Id**: This is the banner id for the ads on the android app.
+- **Android Ads Interstitial Id**: This is the interstitial id for the ads on the android app.
+- **Android Ads Rewarded Id**: This is the rewarded id for the ads on the android app.
+- **Ios Ads Banner Id**: This is the banner id for the ads on the iOS app.
+- **Ios Ads Interstitial Id**: This is the interstitial id for the ads on the iOS app.
+- **Ios Ads Rewarded Id**: This is the rewarded id for the ads on the iOS app.
+
+### Web App Only Settings
+- **Account Page Layout**: This is the layout of the account page. You can choose between `sidebar` and `tabs`.
+- **Profile Page Layout**: This is the layout of the profile page. You can choose between `sidebar` and `tabs`.
+- **App name**: This is the name of the app. This name will be shown in the title of the web app.
+- **Google Play Store Link**: This is the link to the google play store page of the app. This link will be shown in the web app.
+- **App Store Link**: This is the link to the app store page of the app. This link will be shown in the web app.
+
+
+You can update these settings from here:
+<br />
+<Zoom>
+  <Image
+    src="/admin/5.png"
+    alt="Settings"
+    width={1500}
+    height={1500}
+  />
+</Zoom>

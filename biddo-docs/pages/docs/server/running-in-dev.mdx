@@ -1,0 +1,153 @@
+import Image from 'next/image'
+import Zoom from 'react-medium-image-zoom'
+import 'react-medium-image-zoom/dist/styles.css'
+
+## Running in Development with Docker
+
+
+### Start the server
+
+Make sure you install the necessary NPM packages by running the following command in the root directory of the project:
+
+```bash
+npm install
+```
+
+In order to run the application in development mode, you need to open a terminal inside the root directory of the project and run the following command:
+
+```bash
+docker-compose up
+```
+
+This command will start the server and the database in Docker containers. The server will be running on port `7777`. 
+
+ If the server is ran the first time, the available migrations will be automatically executed and populate the database with the necessary data.
+
+On a successful start, you should see the following message in the terminal:
+
+```bash
+Server listen on : 7777
+```
+
+<br/>
+<Zoom>
+<Image
+  src="/server/run-in-dev/1.png"
+  alt="Success server"
+  width={1500}
+  height={1500}
+/>
+</Zoom>
+
+
+---------------------
+
+### Access the server
+
+You can access the server by opening the following URL in your browser:
+
+```bash
+http://localhost:7777
+```
+
+You should see the following message in your browser:
+<br/>
+<Zoom>
+
+<Image
+  src="/server/run-in-dev/2.png"
+  alt="Browser server"
+  width={1500}
+  height={1500}
+/>
+</Zoom>
+
+### Follow video tutorial for running the server in development mode
+<br/>
+
+<iframe width="832" height="500" src="https://cdn.tanna.app/biddo/server.mp4" title="Running server in development mode" allow="autoplay; fullscreen" allowfullscreen></iframe>
+<br/>
+
+---------------------
+
+### Connect PostgreSQL GUI client
+
+(In this demo, we are using DataGrip as the PostgreSQL GUI client)
+
+1. Open DataGrip and click on the `+` icon to add a new data source.
+2. Select `PostgreSQL` from the list of data sources.
+3. Fill in the necessary information (Data taken from the `.env` file):
+   - Host: `localhost`
+   - Port: `6543`
+   - Database: `biddo-dev`
+   - User: `biddo`
+   - Password: `biddo` 
+
+<br/>
+<Zoom>
+<Image
+  src="/server/run-in-dev/3.png"
+  alt="Database connect"
+  width={1500}
+  height={1500}
+/>
+</Zoom>
+
+You should be able to have available the following tables in the database:
+
+<br/>
+<Zoom>
+
+<Image
+  src="/server/run-in-dev/4.png"
+  alt="Database tables"
+  width={1500}
+  height={1500}
+/>
+</Zoom>
+
+
+### Stop the server
+
+In order to stop the server, you need to hit `Ctrl + C` in the terminal where the server is running. This will stop the server and the database containers.
+
+If you want to remove the containers, you can run the following command:
+
+```bash
+docker-compose down
+```
+
+If you want to remove the containers and the volumes (together with all the data), you can run the following command:
+
+```bash
+docker-compose down -v
+```
+
+<br/>
+
+## Running in development without Docker
+
+If you do not want to use Docker, you can run the server without it, but you must make sure that you have a PostgreSQL database available to connect to.
+
+If you have a database set up on a remote server, you can connect to it by changing the required environment variables in the `.env` file.
+
+If you would like to manually create a PostgreSQL database on your machine, you can follow the steps in the following [PostgreSQL installation guide](https://www.prisma.io/dataguide/postgresql/setting-up-a-local-postgresql-database).
+
+The env variables that need to be changed are:
+
+```bash
+POSTGRES_SERVER=YOUR_SERVER
+POSTGRES_PORT_EXTERNAL=6543
+POSTGRES_USER=YOUR_USER
+POSTGRES_PASSWORD=YOUR_PASSWORD
+POSTGRES_DB=YOUR_DB
+```
+
+After you have set up the database, you can run the following commands in the root directory of the project:
+
+```bash
+npm install
+npm run dev
+```
+
+This will start the server in development mode without Docker. The server will be running on port `7777`.

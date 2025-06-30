@@ -1,0 +1,108 @@
+import Image from 'next/image'
+import Zoom from 'react-medium-image-zoom'
+import 'react-medium-image-zoom/dist/styles.css'
+
+### Publish Mobile App to Google Play Store
+
+Follow the official Flutter guidelines to publish the app to Play Store.
+
+Guidelines: https://docs.flutter.dev/deployment/android
+
+
+----------
+
+#### Summary of steps you need to follow
+
+1. In order to publish the app to the Play Store, you need to have a Google Play Developer account. If you don't have one, you can create it [here](https://play.google.com/apps/publish/signup/)
+2. After you have created the account, you need to create a new application in the Play Console
+3. You need to generate a signing key and configure the app to use it
+
+    - You can generate a signing key by opening a terminal inside the root of the project and using the following command:
+    ```bash
+    keytool -genkey -v -keystore keystore.jks -keyalg RSA -keysize 2048 -validity 10000 -alias key
+    ```
+    *You will be asked to provide some information about the key, such as the password, the name, the organization, etc.*
+    **Make sure to remember the password, as you will need it later**
+    <br/>
+    <Zoom>
+    <Image
+      src="/mobile-app/deploy/2.png"
+      alt="generate key"
+      width={1500}
+      height={1500}
+    />
+    </Zoom>
+
+    A file will be generated in the root of the app and you need to move it to the `android/app` folder, live in the following image.
+
+    <br/>
+    <Zoom>
+
+    <Image
+      src="/mobile-app/deploy/1.png"
+      alt="General"
+      width={1500}
+      height={1500}
+    />
+    </Zoom>
+
+    <br/>
+    <br/>
+
+
+4. You will need to create a `key.properties` file in the `android` folder with the following content:
+    ```properties
+    storePassword=YOUR_PASSWORD_HERE
+    keyPassword=YOUR_PASSWORD_HERE
+    keyAlias=upload
+    storeFile=../app/keystore.jks
+    ```
+    <Zoom>
+
+    <Image
+      src="/mobile-app/deploy/3.png"
+      alt="properties"
+      width={1500}
+      height={1500}
+    />
+    </Zoom>
+
+    <br/>
+    <br/>
+
+5. Open a terminal in the root of the project and run the following command:
+    ```bash
+    flutter build appbundle
+    ```
+    This will generate the  `build/app/outputs/bundle/release/app-release.aab` file. This is the file that you will upload to the Play Store.
+
+    <br/>
+
+6. Befire creating a new release, you need to complete the Play Console setup, found in the Dashboard section of the Play Console.
+
+    <br/>
+    <Zoom>
+
+    <Image
+      src="/mobile-app/deploy/5.png"
+      alt="Play Store"
+      width={1500}
+      height={1500}
+    />
+    </Zoom>
+
+
+    <br/>
+    <br/>
+
+6. Inside the Google Play Console, you need to create a new Closed testing release, upload the `app-release.aab` file and fill in the required information about the app.
+    <br/>
+    <Zoom>
+
+    <Image
+      src="/mobile-app/deploy/4.png"
+      alt="Play Store"
+      width={1500}
+      height={1500}
+    />
+    </Zoom>

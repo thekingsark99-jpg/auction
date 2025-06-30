@@ -1,0 +1,129 @@
+import Image from 'next/image'
+import Zoom from 'react-medium-image-zoom'
+import 'react-medium-image-zoom/dist/styles.css'
+
+### Prerequisites
+
+1. A Google Cloud Platform account
+2. A project on Google Cloud Platform (These 2 steps are covered in the Mobile App - Google Maps Integration)
+3. Install GCloud and run auth command
+  - Download GCloud [https://cloud.google.com/sdk/](https://cloud.google.com/sdk/)
+  - Open a terminal and run the following command
+  ```bash
+  gcloud auth application-default login --project=YOUR_PROJECT_ID
+  ```
+
+
+### Create a bucket 
+
+1. Go to Google Cloud Platform on https://console.cloud.google.com/
+2. Click on console.
+3. Select the project you want to use.
+4. In the searchbar, search for "Buckets" and click on "Buckets".
+
+<br/>
+<Zoom>
+<Image src="/server/tutorials/4.png" alt="Buckets" width={1500} height={1500} />
+</Zoom>
+
+5. Click on "Create Bucket".
+
+<br/>
+<Zoom>
+
+<Image src="/server/tutorials/5.png" alt="Create bucket" width={1500} height={1500} />
+</Zoom>
+
+6. Add a new name and other required data for your bucket and click on "Create". (Make sure you select a region that is close to your server's location)
+
+<br/>
+<Zoom>
+
+<Image src="/server/tutorials/6.png" alt="Bucket name" width={1500} height={1500} />
+</Zoom>
+
+7. You should see a screen similar to this one
+
+<br/>
+<Zoom>
+
+<Image src="/server/tutorials/7.png" alt="Bucket created" width={1500} height={1500} />
+</Zoom>
+
+8. Go to the PERMISSIONS tab and allow anyone to view the files from the bucket
+ - Click on `GRANT ACCESS`
+ - Add `allUsers` as new principal
+ - Add `Storage Object Viewer` as role
+
+ <br/>
+<Zoom>
+
+<Image src="/server/tutorials/15.png" alt="Permissions" width={1500} height={1500} />
+</Zoom>
+
+ <br/>
+<Zoom>
+
+<Image src="/server/tutorials/16.png" alt="allUsers" width={1500} height={1500} />
+</Zoom>
+
+ <br/>
+<Zoom>
+
+<Image src="/server/tutorials/17.png" alt="grant role" width={1500} height={1500} />
+</Zoom>
+
+The bucket is now created and anyone can see the images uploaded there. Let's see how we can upload and delete files from the bucket.
+
+
+### Create a service account
+
+1. In the Google Console platform, search for **Service Accounts IAM**
+<br/>
+<Zoom>
+
+<Image src="/server/tutorials/10.png" alt="Service accounts" width={1500} height={1500} />
+</Zoom>
+
+2. Click on the "Create Service Account" button
+3. Add a name and description for your service account and click on "Continue"
+
+<br/>
+<Zoom>
+
+<Image src="/server/tutorials/11.png" alt="Service accounts" width={1500} height={1500} />
+</Zoom>
+
+4. Grant the service account the **Storage Admin** role and click on "Done" 
+
+<br/>
+<Zoom>
+
+<Image src="/server/tutorials/12.png" alt="Service account permission" width={1500} height={1500} />
+</Zoom>
+
+5. Click on the service account you just created, got to the **Keys** tab and click on Add key with JSON format. This will download a JSON file with the credentials for your service account.
+
+<br/>
+<Zoom>
+
+<Image src="/server/tutorials/13.png" alt="Service account key" width={1500} height={1500} />
+</Zoom>
+
+6. Copy the content of the JSON file that was downloaded
+7. Create a `service-account.json` file in the root of the server and paste the content of the JSON file inside it
+
+<br/>
+<Zoom>
+
+<Image src="/server/tutorials/14.png" alt="Service account key in server" width={1500} height={1500} />
+</Zoom>
+
+
+### Add bucket to .env
+
+Add name of the bucket inside the `.env` file in the root of the server
+
+```env
+GCLOUD_STORAGE_BUCKET=YOUR_BUCKET_NAME
+```

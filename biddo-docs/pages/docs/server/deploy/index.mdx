@@ -1,0 +1,75 @@
+
+
+In order to deploy the NodeJS server to a virtual machine, you can either use Docker or not. We do recommend using Docker, as it will make sure that the server does not have access to the host machine. If you do not want to use Docker, you can simply run the server on the virtual machine using node or pm2.
+
+A VPS server is required in order to follow the existing steps.
+
+The NodeJS server will come with predefined publish scripts for Kamatera (using Docker) and Hostinger (without Docker). You can easily adapt the scripts to work with any other cloud provider.
+
+
+
+### Prerequisites
+Before you start, make sure you have a VPS server running Ubuntu 22.04 or newer and a PostgreSQL database.
+
+Other hosting providers are supported ([Kamatera](https://www.kamatera.com/), [Hostinger](https://www.hostinger.com/), [DigitalOcean](https://www.digitalocean.com/), [Linode](https://www.linode.com/), [Vultr](https://www.vultr.com/), [AWS](https://aws.amazon.com/), [Azure](https://azure.microsoft.com/), [Google Cloud](https://cloud.google.com/)) as they are similar to A2 Hosting.  
+
+
+### Prepare the virtual machine
+
+1. In order for the deployment script to work, you need to make sure that you have SSH access to the virtual machine.
+  > You can say that you have SSH access to the machine, if you can connect to it by running the following command from a terminal:
+    ```bash
+    ssh <user>@<ip_of_machine>
+    ```
+
+2. Make sure that the database is accessible from the IP of the virtual machine.
+
+3. Make sure you have NodeJs installed (version 20 or newer) on the virtual machine. You can install NodeJs by running the following command, while connected to the virtual machine:
+
+```bash
+sudo apt install nodejs
+sudo apt install npm
+```
+
+4. Install and configure [nginx](https://nginx.org/en/) if not already configured. We will start the server on port 7777 by default and we need to make sure that whenever the server is accessed on port 80, the requests are redirected to port 7777.
+    - install nginx by running the following command, while connected to the virtual machine:
+
+    ```bash
+    sudo apt install nginx
+    ```
+
+    - open the nginx configuration file by running the following command:
+
+    ```bash
+    sudo nano /etc/nginx/sites-available/default
+    ```
+
+    - add a reverse proxy configuration to the nginx configuration file:
+
+    ```nginx
+    server {
+        listen 80;
+        server_name <your-server-domain-or-ip>;
+
+        location / {
+            proxy_pass http://localhost:7777;
+            proxy_http_version 1.1;
+            proxy_set_header Upgrade $http_upgrade;
+            proxy_set_header Connection 'upgrade';
+            proxy_set_header Host $host;
+            proxy_cache_bypass $http_upgrade;
+        }
+    }
+    ```
+
+    - test if the nginx configuration is correct by running the following command:
+
+    ```bash
+    sudo nginx -t
+    ```
+
+    - restart the nginx service by running the following command:
+
+    ```bash
+    sudo systemctl restart nginx
+    ```

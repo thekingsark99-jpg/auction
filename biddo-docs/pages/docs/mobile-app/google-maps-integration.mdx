@@ -1,0 +1,31 @@
+import Image from 'next/image'
+import Zoom from 'react-medium-image-zoom'
+import 'react-medium-image-zoom/dist/styles.css'
+
+## Google Maps integration
+
+1. You should already have an API key from the NodeJS Server - Google Maps Integration
+
+2. Add the key to the `.env` file in the root of the project
+
+```env
+GOOGLE_MAPS_API_KEY=YOUR_API_KEY
+```
+
+<br/>
+<Zoom>
+
+<Image
+  src="/mobile-app/google-maps/5.png"
+  alt="Google Cloud Platform"
+  width={1500}
+  height={1500}
+/>
+</Zoom>
+
+
+### Pay attention
+
+If inside the Google Clous Storage you have limited the API key to be used only from a specific IP address, you should create a new API key and use it in the `.env` file.
+
+We'll cover how to secure the Google Maps API key for the mobile app in the Deploy section.

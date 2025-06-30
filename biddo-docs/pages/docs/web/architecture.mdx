@@ -1,0 +1,88 @@
+import Image from 'next/image'
+import Zoom from 'react-medium-image-zoom'
+import 'react-medium-image-zoom/dist/styles.css'
+
+## Code Architecture
+
+The web application is a NextJS application, using app directory. If you want to learn more about NextJS, you can visit the [official documentation](https://nextjs.org/docs). Specific documentation about app router can be found [here](https://nextjs.org/docs/app).
+
+Similar with the NodeJS server, the web application is written in Typescript. You can see below the structure of the web application:
+
+For state management, MobX is used. You can find more about MobX [here](https://mobx.js.org/README.html).
+
+<br/>
+<Zoom>
+<Image src="/web/architecture/1.png" alt="Architecture" width={1500} height={1500} />
+</Zoom>
+
+As you can notice from the image above, the web application is structured in the following way:
+
+- **public** - contains the public assets of the application. (images, icons etc.)
+
+- **app** - contains the main pages of the application. We will go into more details about the pages...
+
+- **components** - contains the reusable components of the application. 
+
+- **core** - you will find here the models, repositories and the controllers of the application. These are the "smart" entities of the application that fetch data from the server or push changes to the server.
+
+- **hooks** - generic reusable hooks that can be used in the application.
+
+- **middlewares** - contains the middlewares that are used in the application.
+
+- **utils** - contains the utility functions that are used in the application.
+
+<br/>
+
+Let's deep further into the structure of the application.
+
+<br/>
+<Zoom>
+<Image src="/web/architecture/2.png" alt="Architecture" width={1500} height={1500} />
+</Zoom>
+
+
+Inside the `app` directory, you will find a root folder called `[lang]`. This is the internationalization folder of the application. Inside this folder, you will find a different folder for each page available inside the application.
+
+One thing to note here is that if there is a component that needs to be used only inside a specific page, it will be placed inside the page folder. If the component is used in multiple pages, it will be placed inside the `components` folder from the root of the app. Basically, if you navigate to a page folder, you could find another `components` folder, that are used only in that specific page.
+
+<br/>
+<br/>
+
+<Zoom>
+<Image src="/web/architecture/6.png" alt="Architecture" width={1500} height={1500} />
+</Zoom>
+
+Whenever we have nested pages (like the "auctions/recommendations" page), we will have a folder for each nested page. Inside the nested page folder, you will find the components that are used only in that specific page, like in the above example.
+
+<br/>
+<Zoom>
+<Image src="/web/architecture/3.png" alt="Architecture" width={1500} height={1500} />
+</Zoom>
+
+Inside the same `app` directory, you will find a few more folders:
+
+- **css** - contains simple CSS styles of the application.
+- **i18n** - contains the translations of the application.
+- **scss** - contains SCSS styles of the application. There would be a different file for each page of the application. (Some JSX styles might be found through the application components, but the main styles are found here)
+
+
+<br/>
+<Zoom>
+<Image src="/web/architecture/4.png" alt="Architecture" width={1500} height={1500} />
+</Zoom>
+
+The `components` folder contains the reusable components of the application. These components are used in multiple pages of the application and they are separated in different folders based on their functionality or location they are used in the application.
+
+
+<br/>
+<Zoom>
+<Image src="/web/architecture/5.png" alt="Architecture" width={1500} height={1500} />
+</Zoom>
+
+
+As mentioned above, the `core` folder contains the models, repositories and the controllers of the application. The role of these entities are the following:
+
+- **domain** - The models of the application. These are the entities that are used in the application. For example, a user, an auction, a category etc. These entities are used in the application to represent the data that is fetched from the server and they do not contain any logic.
+- **repositories** - The repositories are responsible for fetching the data from the server. They contain the logic of fetching the data from the server and sending it back to the application. They do not contain any logic related to the business rules of the application. The repositories are not used directly in the React components of the application.
+- **controllers** - The controllers are responsible for handling the business logic of the application. They contain the logic of the application and they are responsible for handling the data that is fetched from the server and sending it back to the application. The controllers are using the repositories to fetch the data from the server. They can be used inside the React components of the application.
+- **store** - MobX store, used for state management. This is reactive state management library that makes it simple to connect the reactive data of your application with the UI. Inside the React component, data from the store can be used directly, without the need to pass it through props. Whenever the data from the store is updated, the react component that uses that data will be re-rendered.

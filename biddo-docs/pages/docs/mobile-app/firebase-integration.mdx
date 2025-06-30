@@ -1,0 +1,239 @@
+import Image from 'next/image'
+import Zoom from 'react-medium-image-zoom'
+import 'react-medium-image-zoom/dist/styles.css'
+
+## Firebase integration
+
+### Create Firebase project
+
+Navigate to the [Firebase Console](https://console.firebase.google.com/) and create a new project
+
+<br/>
+<Zoom>
+<Image
+  src="/mobile-app/firebase/create-project/1.png"
+  alt="Launcher Icon"
+  width={1500}
+  height={1500}
+/>
+</Zoom>
+
+<br/>
+<Zoom>
+
+<Image
+  src="/mobile-app/firebase/create-project/2.png"
+  alt="Launcher Icon"
+  width={1500}
+  height={1500}
+/>
+</Zoom>
+
+<br/>
+<Zoom>
+<Image
+  src="/mobile-app/firebase/create-project/3.png"
+  alt="Launcher Icon"
+  width={1500}
+  height={1500}
+/>
+</Zoom>
+
+<br/>
+<Zoom>
+
+<Image
+  src="/mobile-app/firebase/create-project/4.png"
+  alt="Launcher Icon"
+  width={1500}
+  height={1500}
+/>
+</Zoom>
+
+
+### Add Android to the project
+
+<br/>
+<Zoom>
+
+<Image
+  src="/mobile-app/firebase/add-android/1.png"
+  alt="Launcher Icon"
+  width={1500}
+  height={1500}
+/>
+</Zoom>
+
+------
+
+- Make sure you are using the correct package name. You can find the package name in the `android/app/build.gradle` file
+
+<br/>
+<Zoom>
+
+<Image
+  src="/mobile-app/firebase/add-android/2.png"
+  alt="Launcher Icon"
+  width={1500}
+  height={1500}
+/>
+</Zoom>
+
+- Make sure you download the `google-services.json` file and place it in the `android/app` directory
+
+<br/>
+<Zoom>
+
+<Image
+  src="/mobile-app/firebase/add-android/3.png"
+  alt="Launcher Icon"
+  width={1500}
+  height={1500}
+/>
+</Zoom>
+
+<br/>
+<Zoom>
+
+<Image
+  src="/mobile-app/firebase/add-android/4.png"
+  alt="Launcher Icon"
+  width={1500}
+  height={1500}
+/>
+</Zoom>
+
+
+> If you're having issue while trying to login using Google on Android, make sure you have the `SHA-1` key added to the Android Firebase project. 
+> You can generate and see the SHA-1 key by running the following command in the terminal:
+```bash
+keytool -list -v -keystore ~/.android/debug.keystore -alias androiddebugkey -storepass android -keypass android
+```
+
+### Add iOS to the project
+
+<br/>
+<Zoom>
+
+<Image
+  src="/mobile-app/firebase/add-ios/1.png"
+  alt="Launcher Icon"
+  width={1500}
+  height={1500}
+/>
+</Zoom>
+
+
+<br/>
+<Zoom>
+
+<Image
+  src="/mobile-app/firebase/add-ios/2.png"
+  alt="Launcher Icon"
+  width={1500}
+  height={1500}
+/>
+</Zoom>
+
+- At the next step, make sure you download the `GoogleService-Info.plist` file and place it in the `ios/Runner` directory
+
+- Make sure you have these two files inside the project
+
+<br/>
+<Zoom>
+
+<Image
+  src="/mobile-app/firebase/add-ios/3.png"
+  alt="Launcher Icon"
+  width={450}
+  height={1200}
+/>
+</Zoom>
+
+### Configure iOS notifications
+
+Follow the steps from the [Firebase documentation](https://firebase.flutter.dev/docs/messaging/apple-integration/) to configure iOS notifications
+
+### Enable Firebase authentication
+
+We will enable the following authentication methods:
+
+<br/>
+<Zoom>
+
+<Image
+  src="/mobile-app/firebase/add-auth/1.png"
+  alt="Launcher Icon"
+  width={1500}
+  height={1500}
+/>
+</Zoom>
+
+You just need to follow the steps from the Firebase Console, for each of them.
+
+<br/>
+<Zoom>
+
+<Image
+  src="/mobile-app/firebase/add-auth/2.png"
+  alt="Launcher Icon"
+  width={1500}
+  height={1500}
+/>
+</Zoom>
+
+<br/>
+<Zoom>
+
+<Image
+  src="/mobile-app/firebase/add-auth/3.png"
+  alt="Launcher Icon"
+  width={1500}
+  height={1500}
+/>
+</Zoom>
+
+
+In order for the Apple Sign In to work, you need to add the `Sign in with Apple` capability to your project, from xcode. Select the Signing & Capabilities tab, and add "Sign In With Apple" as a new Capability then select a team on the Code Signing section.
+
+<br/>
+<Zoom>
+
+<Image
+  src="/mobile-app/firebase/add-auth/4.png"
+  alt="Launcher Icon"
+  width={1500}
+  height={1500}
+/>
+</Zoom>
+
+<br/>
+<Zoom>
+
+<Image
+  src="/mobile-app/firebase/add-auth/5.png"
+  alt="Launcher Icon"
+  width={1500}
+  height={1500}
+/>
+</Zoom>
+
+This will generate and configure an App ID in the "Certificates, Identifiers & Profiles" section of the Apple Developer portal.
+
+### Enable inside project
+
+After you done all the steps above, you need to open a terminal inside the root directory of the mobile app and run the following commands, one after another:
+
+```bash
+firebase login
+```
+
+```bash
+dart pub global activate flutterfire_cli
+```
+
+```bash
+flutterfire configure
+```
+
+Make sure you enable both android and ios when asked

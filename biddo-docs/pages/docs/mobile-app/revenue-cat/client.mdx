@@ -1,0 +1,39 @@
+
+import Image from 'next/image'
+import Zoom from 'react-medium-image-zoom'
+import 'react-medium-image-zoom/dist/styles.css'
+
+## Mobile app configuration
+
+The mobile app should only require two API Keys that are found inside the RevenueCat dashboard.
+
+1. Go to the [RevenueCat dashboard](https://app.revenuecat.com/) and select your app.
+2. There should already be two API keys (one for iOS and one for Android) that you can use in the mobile app. (If not, you can create them by going to the `API Keys` tab and clicking on the `+ New` button)
+3. Copy the API keys and add them to the mobile app, inside the `.env` file.
+
+```dart
+REVENUE_CAT_IOS_API_KEY=YOUR_IOS_API_KEY
+REVENUE_CAT_GOOGLE_API_KEY=YOUR_ANDROID_API_KEY
+```
+
+## Make sure In-App Purchases are enabled on iOS
+
+You need to open the `ios/Runner.xcworkspace` file in Xcode and enable In-App Purchases for the app. 
+   <br/>
+   <Zoom>
+    <Image
+      src="/mobile-app/payments/4.png"
+      alt="Xcode enable"
+      width={1500}
+      height={1500}
+    />
+    </Zoom>
+
+
+This should normally be enough to have the mobile app configured to work with RevenueCat, as it will automatically fetch the products from the server and display them in the app.
+
+Now, let's see how we can configure the server to work with RevenueCat.
+
+## Testing
+
+If you want to test the payment flow in a sandbox mode (debug), please follow the steps from the [official documentation](https://www.revenuecat.com/docs/test-and-launch/sandbox).

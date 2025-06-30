@@ -1,0 +1,91 @@
+import Image from 'next/image'
+import Zoom from 'react-medium-image-zoom'
+import 'react-medium-image-zoom/dist/styles.css'
+
+### Prerequisites
+
+1. An AWS account. If you don't have one, you can create one [here](https://aws.amazon.com/).
+
+### Create a bucket
+
+After you have created an AWS account, you can create a bucket to store your assets.
+
+1. Navigate to S3 inside the AWS Management Console.
+
+<br/>
+<Zoom>
+<Image src="/server/aws/1.png" alt="AWS" width={1500} height={1500} />
+</Zoom>
+<br/>
+
+2. Once you are inside the S3 dashboard, you will have the possibility to create a new bucket. (Notice the "Create bucket" button from the following image)
+
+<br/>
+<Zoom>
+<Image src="/server/aws/2.png" alt="AWS" width={1500} height={1500} />
+</Zoom>
+<br/>
+
+3. In the bucket creation form, you will need to add the name of the bucket. As the assets will be public available, make sure the deselect the "Block Public Access settings for this bucket" option. If this is enabled, the uploaded assets will not be visible inside the Biddo app.
+
+<br/>
+<Zoom>
+<Image src="/server/aws/3.png" alt="AWS" width={1500} height={1500} />
+</Zoom>
+<br/>
+
+After you create the bucket, you should see something similar to the following image.
+
+<br/>
+<Zoom>
+<Image src="/server/aws/4.png" alt="AWS" width={1500} height={1500} />
+</Zoom>
+<br/>
+
+4. Update the bucket permissions policy. For this, you need to enter the bucket details screen and tap on the "Permissions" tab. Here, you will find the "Bucket policy", which you need to update with the following content:
+
+```json
+{
+    "Version": "2012-10-17",
+    "Statement": [
+      {
+        "Sid": "PublicReadGetObject",
+        "Effect": "Allow",
+        "Principal": "*",
+        "Action": "s3:GetObject",
+        "Resource": "arn:aws:s3:::YOUR_BUCKET_NAME/*"
+      }
+    ]
+}
+```
+
+**Make sure to replace YOUR_BUCKET_NAME with the name of your bucket.**
+
+<br/>
+<Zoom>
+<Image src="/server/aws/5.png" alt="AWS" width={1500} height={1500} />
+</Zoom>
+<br/>
+
+### Create security credentials
+
+For this, you need to navigate to "Security credentials" and create a new access key. This will generate an access key and a secret key that you need to store in the `.env` file of the server.
+
+<br/>
+<Zoom>
+<Image src="/server/aws/6.png" alt="AWS" width={1500} height={1500} />
+</Zoom>
+<br/>
+
+### Add bucket to .env
+
+Store the necessary data in the `.env` file of the server.
+
+```env
+AWS_ACCESS_KEY_ID=YOUR_ACCESS_KEY
+AWS_SECRET_ACCESS_KEY=YOUR_SECRET_ACCESS_KEY
+AWS_STORAGE_BUCKET=YOUR_BUCKET_NAME
+AWS_STORAGE_REGION=YOUR_BUCKET_STORAGE_REGION
+```
+
+This is all you need to do to set up AWS S3 as a storage option for your Biddo app. Now you can start uploading assets to the bucket and use them inside the app.

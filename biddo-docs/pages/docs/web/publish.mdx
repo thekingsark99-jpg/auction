@@ -1,0 +1,55 @@
+import Image from 'next/image'
+import Zoom from 'react-medium-image-zoom'
+import 'react-medium-image-zoom/dist/styles.css'
+
+## Publish the Web app
+
+The Web app is a NextJS application that can be published on any hosting service that supports NodeJS applications.
+
+Vercel is a great option for hosting the Web app, as it is the company that created NextJS and it has a great integration with the framework.
+
+You can publish your Web app on Vercel by following these steps:
+
+1. Install the Vercel CLI, following the steps from the [official documentation](https://vercel.com/docs/cli).
+2. Open a terminal inside the root of the Web app and run the following command:
+
+```bash
+vercel
+```
+
+This will automatically publish your application on vercel.
+
+### Changes to the NodeJS server
+
+After you publish the Web app, a domain will be automatically assigned. You need to allow the NodeJS server to accept requests from this domain.
+
+Inside the NodeJS server, open the `src/config.ts` file. Inside this config file, you will find a `ALLOW_ORIGIN` property. You need to add the domain that was assigned by Vercel to this property.
+
+*If you have a custom domain for your Web app, you need to add that domain to the `ALLOW_ORIGIN` property.*
+
+<br/>
+<Zoom>
+<Image
+  src="/web/publish/1.png"
+  alt="Publish Web app"
+  width={1500}
+  height={1500}
+/>
+</Zoom>
+<br/>
+
+**Do not forget to update the `WEB_APP_URL` inside the `.env` file in the NodeJS server with the new domain.**
+
+### Firebase changes
+
+Take into account that Firebase will not work with the new domain that was assigned by Vercel. You need to add the new domain to the Firebase console, in the `Authentication` section.
+
+<br/>
+<Zoom>
+<Image
+  src="/web/publish/2.png"
+  alt="Firebase changes"
+  width={1500}
+  height={1500}
+/>
+</Zoom>

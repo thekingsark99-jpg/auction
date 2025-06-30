@@ -1,0 +1,30 @@
+
+
+## Setup Admin Panel
+
+The Admin Panel is generated using [AdminJS](https://adminjs.co/), a modern Admin Panel for Node.js with React. It allows you to build admin panels quickly and efficiently, with a focus on extensibility and flexibility. The Admin Panel is designed to be user-friendly and intuitive, providing a seamless experience for managing your application's data.
+
+In order to activate the Admin Panel generation, you need to add a few properties inside the `.env` file.
+
+```env
+ADMIN_ENABLED=true
+ADMIN_EMAIL=YOUR_DESIRED_EMAIL (e.g. test@test.com)
+ADMIN_PASSWORD=YOUR_DESIRED_PASSWORD (e.g. password)
+ADMIN_COOKIE_PASSWORD=THE_PASSWORD_FOR_THE_COOKIE (e.g. cookie_password)
+```
+
+
+If the `ADMIN_ENABLED` property is set to `true`, the Admin Panel will be generated automaticaly when you start the server and will be accessible at the `/admin` route. You can log in using the email and password specified in the `.env` file.
+
+
+> For example, if the server is running on `http://localhost:7777`, you can access the Admin Panel at `http://localhost:7777/admin`.
+
+### Functionalities
+
+The Admin Panel provides a range of functionalities to help you manage your application's data effectively. Some of the key features include:
+- **Dashboard**: An overview of key metrics and data visualizations to help you monitor your application's performance.
+- **Resource Management**: Manage your application's resources, including creating, updating, and deleting data entries.
+- **User Management**: Manage user accounts, including  updating user information, and deleting user accounts.
+- **Notifications**: Manage the push notifications sent to users, including resending notifications and viewing notification history.
+- **Payments view**: View the payments made by users, including payment details and transaction history.
+- **Filter and Search**: Easily filter and search for specific data entries to quickly find the information you need.

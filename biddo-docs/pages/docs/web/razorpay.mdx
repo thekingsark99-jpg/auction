@@ -1,0 +1,68 @@
+
+
+import Image from 'next/image'
+import Zoom from 'react-medium-image-zoom'
+import 'react-medium-image-zoom/dist/styles.css'
+
+## Paypal Integration
+
+Head over to [Razorpay Dashboard](https://dashboard.razorpay.com/) and create and account.
+Once you are on the dashboard:
+
+1. Click on "Account & Settings" -> "API Keys" and generate a new key. (You will have the possibility to download the key or copy it).
+<br/>
+<Zoom>
+<Image src="/web/razorpay/1.png" alt="Razorpay" width={1500} height={1500} />
+</Zoom>
+
+
+You will have a Key ID and a Key Secret.
+
+You will need to add the following environment variables to the NodeJS server:
+
+```bash
+RAZORPAY_KEY_ID= <your-key-id>
+RAZORPAY_SECRET_KEY= <your-key-secret>
+```
+
+You will need to add the following environment variables to the web application (NextJS app):
+
+```bash
+NEXT_PUBLIC_RAZORPAY_KEY_ID= <your-key-id>
+```
+
+
+2. Add webhook to the NodeJS server. Navigate to the "Webhooks" section and add a new webhook.
+<br/>
+<Zoom>
+<Image src="/web/razorpay/2.png" alt="Razorpay" width={1500} height={1500} />
+</Zoom>
+
+Make sure that in the "Webhook URL" input, you need to add the URL of the server, followed by `/payment/razorpay-webhook`.
+
+For example, if the server is running on `http://localhost:7777`, the webhook URL should be `http://localhost:7777/payment/razorpay-webhook`.
+
+Make sure you add a Secret Key to the webhook and add the same key in the NodeJS server environments like this:
+
+```bash
+RAZORPAY_WEBHOOK_SECRET= <your-webhook-secret>
+```
+
+For Active Events, make sure you select the **payment.authorized** event.
+
+
+3. Make sure that the webhook is active.
+<br/>
+<Zoom>
+<Image src="/web/razorpay/3.png" alt="Razorpay" width={1500} height={1500} />
+</Zoom>
+
+4. Test the integration
+
+For testing purposes, you can use the following card details:
+
+```bash
+Card Number: 4111 1111 1111 1111
+Expiry Date: Any future date
+CVV: Any 3 digits
+```

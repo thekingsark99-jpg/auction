@@ -1,0 +1,33 @@
+import Image from 'next/image'
+import Zoom from 'react-medium-image-zoom'
+import 'react-medium-image-zoom/dist/styles.css'
+
+## Secure your API key
+
+If you are using an API key that can be accessed from anywhere, you can skip this step. However, if you have restricted the API key to be used only from a specific IP address, you need to secure the API key for the mobile app.
+
+We'll secure the key for the Android app, but similar same steps can be applied to the iOS app.
+
+On the Google Cloud API Key platoform, you have the option to restrict the API key to be used only from an android app. This is done by adding the package name and the SHA-1 certificate fingerprint of the app.
+
+The package name can be found in the `android/app/build.gradle` file. The `android->namespace` is the package name.
+
+The SHA-1 certificate fingerprint can be found by running the following command in the terminal:
+
+
+```bash
+keytool -list -v -keystore ~/.android/keystore.jks
+```
+
+This is how your API key should look like after you restrict it to be used only from an Android app:
+
+
+<br/>
+<Zoom>
+<Image
+  src="/mobile-app/deploy/6.png"
+  alt="generate key"
+  width={1500}
+  height={1500}
+/>
+</Zoom>

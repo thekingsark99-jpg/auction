@@ -1,0 +1,382 @@
+import Image from 'next/image'
+import Zoom from 'react-medium-image-zoom'
+import 'react-medium-image-zoom/dist/styles.css'
+
+## Add a new module
+
+We will be adding a `comments` module to the project. This module will allow users to add comments to an auction.
+
+### Add the database table
+
+> If you are already running the server, make sure you stop it before proceeding with the next steps, as the server will detect any change inside the code and it will try to apply the changes to the database. A migration is always ran only once.
+
+> If you are ever in a situation in which a database migration already ran, but you need it to run it again, you can remove the migration straight from the database. The migrations that ran are stored in the `sequelize_migrations` table. You can remove the migration from the table and run the server again. The server will detect that the migration is missing and it will run it again.
+
+
+Before adding the new module, we need to make sure that a database table is created for the module. To create a new table, we need to create a new migration file in the `migrations` directory. In order to autimatically generate a migration file, we need to open a terminal in the project directory and run the following command:
+
+```bash
+npm run migration:create add-comments
+```
+
+This command will create a new migration file in the `migrations` directory. The migration file will contain only the skeleton of the migration. we need to add the actual migration code to the file. 
+
+You will notice that the file has two functions: `up` and `down`. Each of the functions has a `try/catch` statement, place in which we need to add the actual migration code. Inside the `up` function we will add the code that will create the `comments` table, and inside the `down` function we will add the code that will drop the `comments` table.
+
+```javascript
+export async function up({
+  context: queryInterface,
+}: {
+  context: sequelize.QueryInterface
+}) {
+  const transaction = await queryInterface.sequelize.transaction()
+
+  try {
+    await queryInterface.createTable(
+      DATABASE_MODELS.COMMENTS,
+      {
+        id: {
+          type: DataTypes.UUID,
+          defaultValue: sequelize.literal('gen_random_uuid()'),
+          primaryKey: true,
+        },
+        accountId: {
+          allowNull: false,
+          type: DataTypes.UUID,
+          references: {
+            model: DATABASE_MODELS.ACCOUNTS,
+            key: 'id',
+          },
+        },
+        auctionId: {
+          type: DataTypes.UUID,
+          references: {
+            model: DATABASE_MODELS.AUCTIONS,
+            key: 'id',
+          },
+        },
+        comment: {
+          type: DataTypes.TEXT,
+          allowNull: false,
+        },
+        createdAt: {
+          allowNull: false,
+          type: DataTypes.DATE,
+        },
+        updatedAt: {
+          allowNull: false,
+          type: DataTypes.DATE,
+        },
+      },
+      { transaction }
+    )
+    await transaction.commit()
+  } catch (error) {
+    console.error(error)
+    await transaction.rollback()
+    throw error
+  }
+}
+```
+
+```javascript
+export async function down({
+  context: queryInterface,
+}: {
+  context: sequelize.QueryInterface
+}) {
+  const transaction = await queryInterface.sequelize.transaction()
+
+  try {
+    await queryInterface.dropTable(DATABASE_MODELS.COMMENTS, { transaction })
+    await transaction.commit()
+  } catch (error) {
+    await transaction.rollback()
+    throw error
+  }
+}
+```
+
+You can see below an image with the migration file opened in VSCode:
+<br/>
+<Zoom>
+<Image src="/server/tutorials/1.png" alt="Add database table" width={1500} height={1500} />
+</Zoom>
+<br/>
+
+You will notice the `DATABASE_MODELS` object in the migration file. This object contains the names of the tables in the database. You can find the definition of this object in the `src/constants/model-names.ts` file. Make sure to add the name of the new table to the `DATABASE_MODELS` object, like this:
+
+<br/>
+<Zoom>
+
+<Image src="/server/tutorials/2.png" alt="Add database table name" width={1500} height={1500} />
+</Zoom>
+
+The new table will be automatically added to the database when you run the server with the `docker-compose up` command.
+
+
+### Add the module to the project
+
+To add a new module to the project, we need to create a new directory in the `modules` directory. The directory name should be the name of the module you want to create. For example, if we are creating a `comments` module, we need to create a `comments` directory in the `modules` directory.
+
+Inside the new directory, we will create 3 files:
+- `controller.ts`: This file will contain the controller logic for the module
+- `model.ts`: This file will contain the model definition for the module
+- `repository.ts`: This file will contain the repository logic for the module
+
+Here is the content we need to add in each of the files:
+
+**controller.ts**
+
+```javascript
+import { Request, Response } from 'express'
+import { GENERAL } from '../../constants/errors.js'
+import { CommentsRepository } from './repository.js'
+
+export class CommentsController {
+  public static async getForAuction(req: Request, res: Response) {
+    const { auctionId } = req.params
+
+    try {
+      const comments = await CommentsRepository.getForAuction(auctionId)
+      res.status(200).send(comments)
+    } catch (error) {
+      console.error(error)
+      res.status(500).send({ error: GENERAL.SOMETHING_WENT_WRONG })
+    }
+  }
+
+  public static async create(req: Request, res: Response) {
+    const { account } = res.locals
+    const { auctionId, comment } = req.body
+
+    try {
+      if (!auctionId || !comment) {
+        return res.status(400).send({ error: GENERAL.BAD_REQUEST })
+      }
+
+      const newComment = await CommentsRepository.create({
+        accountId: account.id,
+        auctionId,
+        comment,
+      })
+
+      res.status(201).send(newComment)
+    } catch (error) {
+      console.error(error)
+      res.status(500).send({ error: GENERAL.SOMETHING_WENT_WRONG })
+    }
+  }
+
+  public static async update(req: Request, res: Response) {
+    const { account } = res.locals
+    const { id } = req.params
+    const { comment } = req.body
+
+    try {
+      if (!comment) {
+        return res.status(400).send({ error: GENERAL.BAD_REQUEST })
+      }
+
+      const existingComment = await CommentsRepository.getOneById(id)
+      if (!existingComment) {
+        return res.status(404).send({ error: GENERAL.NOT_FOUND })
+      }
+
+      if (existingComment.accountId !== account.id) {
+        return res.status(403).send({ error: GENERAL.FORBIDDEN })
+      }
+
+      const updatedComment = await CommentsRepository.update(
+        { where: { id } },
+        { comment }
+      )
+
+      res.status(200).send(updatedComment)
+    } catch (error) {
+      console.error(error)
+      res.status(500).send({
+        error: GENERAL.SOMETHING_WENT_WRONG,
+      })
+    }
+  }
+
+  public static async delete(req: Request, res: Response) {
+    const { account } = res.locals
+    const { id } = req.params
+
+    try {
+      const existingComment = await CommentsRepository.getOneById(id)
+      if (!existingComment) {
+        return res.status(404).send({ error: GENERAL.NOT_FOUND })
+      }
+
+      if (existingComment.accountId !== account.id) {
+        return res.status(403).send({ error: GENERAL.FORBIDDEN })
+      }
+
+      await CommentsRepository.deleteById(id)
+
+      res.status(204).send()
+    } catch (error) {
+      console.error(error)
+      res.status(500).send({
+        error: GENERAL.SOMETHING_WENT_WRONG,
+      })
+    }
+  }
+}
+
+```
+
+**model.ts**
+
+```javascript
+import { DataTypes, Model } from 'sequelize'
+import { getModelConfig } from '../../utils/db.js'
+import { DATABASE_MODELS } from '../../constants/model-names.js'
+import sequelize from 'sequelize'
+import { Auction } from '../auctions/model.js'
+import { Account } from '../accounts/model.js'
+
+export class Comment extends Model {
+  declare id: string
+  declare auctionId: string
+  declare accountId: string
+  declare comment: string
+
+  declare readonly createdAt: Date
+  declare readonly updatedAt: Date
+
+  static initModel = initModel
+  static initAssociations = initAssociations
+}
+
+function initModel(): void {
+  const modelConfig = getModelConfig(DATABASE_MODELS.COMMENTS)
+
+  Comment.init(
+    {
+      id: {
+        type: DataTypes.UUID,
+        defaultValue: sequelize.literal('gen_random_uuid()'),
+        primaryKey: true,
+      },
+      accountId: {
+        allowNull: false,
+        type: DataTypes.UUID,
+        references: {
+          model: DATABASE_MODELS.ACCOUNTS,
+          key: 'id',
+        },
+      },
+      auctionId: {
+        type: DataTypes.UUID,
+        references: {
+          model: DATABASE_MODELS.AUCTIONS,
+          key: 'id',
+        },
+      },
+      comment: {
+        type: DataTypes.TEXT,
+        allowNull: false,
+      },
+      createdAt: {
+        allowNull: false,
+        type: DataTypes.DATE,
+      },
+      updatedAt: {
+        allowNull: false,
+        type: DataTypes.DATE,
+      },
+    },
+    modelConfig
+  )
+}
+
+function initAssociations() {
+  Comment.belongsTo(Auction, {
+    foreignKey: 'auctionId',
+    onDelete: 'cascade',
+  })
+
+  Comment.belongsTo(Account, {
+    foreignKey: 'accountId',
+    onDelete: 'cascade',
+  })
+}
+
+```
+
+**repository.ts**
+
+```javascript
+import { GenericRepository } from '../../lib/base-repository'
+import { Account } from '../accounts/model'
+import { Comment } from './model'
+
+class CommentsRepository extends GenericRepository<Comment> {
+  constructor() {
+    super(Comment)
+  }
+
+  public async getForAuction(auctionId: string) {
+    return Comment.findAll({
+      where: { auctionId },
+      include: [
+        {
+          model: Account,
+          attributes: ['id', 'name', 'email', 'picture'],
+        },
+      ],
+    })
+  }
+}
+
+const commentsRepositoryInstance = new CommentsRepository()
+Object.freeze(commentsRepositoryInstance)
+
+export { commentsRepositoryInstance as CommentsRepository }
+```
+
+Notice that the `CommentsRepository` extends the `GenericRepository`, which already comes with the basic CRUD operations. The `GenericRepository` is a class that contains the basic CRUD operations for a model. You can find the definition of the `GenericRepository` in the `src/lib/base-repository.ts` file.
+
+----
+
+After we have created the files, there are a few more this we need to do before the new module is exposed from the server.
+
+1. The model needs to be added inside the sequelize instance. To do this, we need to import the model in the `src/database/index.ts` file and add it to the `models` object.
+
+<br/>
+<Zoom>
+
+<Image src="/server/tutorials/3.png" alt="Sequelize" width={1500} height={1500} />
+</Zoom>
+
+2. We need to create a new route and expose the controller methods. Create a new file called `comments.ts` inside the `src/api/routes` directory. The file should contain the following code:
+
+```javascript
+import { Router } from 'express'
+import { Authenticator } from '../middlewares/auth.js'
+import { HttpRateLimiter } from '../middlewares/rate-limiter.js'
+import { CommentsController } from '../../modules/comments/controller.js'
+
+const commentsRouter = Router()
+commentsRouter.use(await Authenticator.authenticateHttp())
+commentsRouter.use(HttpRateLimiter.limitRequestsForUser)
+
+commentsRouter.get('/:auctionId', CommentsController.getForAuction)
+commentsRouter.post('/', CommentsController.create)
+commentsRouter.put('/:id', CommentsController.update)
+commentsRouter.delete('/:id', CommentsController.delete)
+
+export { commentsRouter }
+```
+
+3. We need to import this new route inside the `src/index` file and add the following line of code, near the other route imports:
+
+```javascript
+app.use('/comments', commentsRouter)
+```
+
+This is it. The new module is now exposed from the server. You can test the new module by using Postman or any other API testing tool, after you start the server with the `docker-compose up` command.

@@ -1,0 +1,25 @@
+{
+  "name": "biddo-docs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "author": "Pasca Ovidiu Ionut",
+  "license": "ISC",
+  "type": "module",
+  "scripts": {
+    "dev": "next",
+    "build": "next build",
+    "start": "next start",
+    "export": "next export",
+    "postbuild": "next-sitemap"
+  },
+  "dependencies": {
+    "next": "^14.2.4",
+    "next-sitemap": "^4.2.3",
+    "nextra": "^3.0.0-alpha.42",
+    "nextra-theme-docs": "^3.0.0-alpha.42",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-medium-image-zoom": "^5.2.8"
+  }
+}

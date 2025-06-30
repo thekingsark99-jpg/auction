@@ -1,0 +1,72 @@
+import Image from 'next/image'
+import Zoom from 'react-medium-image-zoom'
+import 'react-medium-image-zoom/dist/styles.css'
+
+## Deploy the server
+
+We are going to deploy the server to a virtual machine on [Hostinger](https://www.hostinger.com/). This process should work on any other cloud provider as well. All you need to have is access to a virtual machine with a public IP address.
+
+We are taking into consideration that you already have a virtual machine running with Ubuntu.
+
+You also need to have access to a PostgreSQL database. If you don't have a PostgreSQL database, there are plenty of cloud providers that offer managed PostgreSQL databases.
+(One example is [Render](https://render.com/)). If you don't want to use managed database, you can always follow the steps to install PostgreSQL on your virtual machine. A nice tutorial can be found [here](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-postgresql-on-ubuntu-22-04).
+
+### Publish the server
+
+1. Create a new file inside the `scripts` directory called `deploy_hostinger.sh` and copy the content from the `scripts/deploy_hostinger.example.sh` file.
+
+   - make sure that you replace the `SERVER_USER`, `SERVER_IP` and `REMOTE_DIR` with the correct values.
+    > `SERVER_USER` is the user that you use to connect to the virtual machine.
+    > `SERVER_IP` is the IP of the virtual machine.
+    > `REMOTE_DIR` is the directory where you want to deploy the server. (e.g. `/home/$SERVER_USER/biddo`)
+
+   - make sure you give execute permissions to the script by running the following command from a terminal in the root of the server:
+
+    ```bash
+    chmod +x ./scripts/deploy_hostinger.sh
+    ```
+
+    <br/>
+    <Zoom>
+    <Image
+      src="/server/deployment/4.png"
+      alt="deploy script"
+      width={1500}
+      height={1500}
+    />
+    </Zoom>
+
+2. Create a new file inside the root of the server called `ecosystem.config.cjs` and copy the content from the `ecosystem.config.example.cjs`
+   - make sure that you replace the values from the `env` object with the correct values. (These are the database credentials that you use to connect to the PostgreSQL database)
+   <br/>
+   <Zoom>
+    <Image
+      src="/server/deployment/2.png"
+      alt="ecosystem"
+      width={1500}
+      height={1500}
+    />
+    </Zoom>
+    > This file is used by PM2 to start the server. You can find more information about the ecosystem file [here](https://pm2.keymetrics.io/docs/usage/application-declaration/)
+
+   <br/>
+
+3. Open a terminal in the root of the server and run the following command to deploy the server:
+
+```bash
+npm run publish:hostinger
+```
+
+
+4. Check if the server is running by accessing the IP of the virtual machine in the browser. You should see a message similar to `API HTTP SERVER 1.0.0`.
+
+> You can also connect to the server using SSH and check the status of the NodeJS server by running the following command:
+
+```bash
+pm2 status
+```
+
+> !!Note!! If you did not implement the `Integrate Google Cloud Storage` tutorial, make sure that the server has enough access to store the files in the filesystem. If you implemented the tutorial, make sure that the server has access to the Google Cloud Storage bucket.
+
+
+**Congratulations! You have successfully deployed the server to a virtual machine.**

@@ -1,0 +1,56 @@
+## Web Push Notifications
+
+The push notifications that are send on the web, need 2 vapid keys, that are going to be used by the [web-push](https://www.npmjs.com/package/web-push) library to send the notifications.
+
+In order to generate these keys, you need to open a terminal on your computer and run the following commands:
+
+**Install web-push globally**
+```bash
+npm install web-push -g
+```
+
+**Generate the keys**
+```bash
+web-push generate-vapid-keys --json
+```
+
+This will output a JSON object with the public and private keys. You need to copy these keys and use them in the NodeJS server.
+The result will look like this:
+```json
+{
+  "publicKey":"BGtkbcjrO12YMoDuq2sCQeHlu47uPx3SHTgFKZFYiBW8Qr0D9vgyZSZPdw6_4ZFEI9Snk1VEAj2qTYI1I1YxBXE",
+  "privateKey":"I0_d0vnesxbBSUmlDdOKibGo6vEXRO-Vu88QlSlm5j0"
+}
+```
+
+### Use the keys inside the NodeJS server
+
+Open the `.env` file in the root of the NodeJS server and add the following keys:
+```bash
+VAPID_PUBLIC_KEY=BGtkbcjrO12YMoDuq2sCQeHlu47uPx3SHTgFKZFYiBW8Qr0D9vgyZSZPdw6_4ZFEI9Snk1VEAj2qTYI1I1YxBXE
+VAPID_PRIVATE_KEY=I0_d0vnesxbBSUmlDdOKibGo6vEXRO-Vu88QlSlm5j0
+SUPPORT_EMAIL=test@test.com  - the VAPID server contact information
+```
+
+*If you do not have the `.env` file, please follow the documentation from the NodeJS Server.*
+
+
+In order for the push notifications that are sent to the users to point to the correct page, the NodeJS server needs to know the URL of the Web Application, in order to build the exact URL of the page where the user should be redirected when clicking on the notification.
+
+You need to add one more information inside the `.env` file, in the NodeJS server:
+```bash
+WEB_APP_URL=http://localhost:3000
+```
+
+The URL should be the one where the Web Application is hosted. If you are running the Web Application on your local machine, the URL should be `http://localhost:3000`.
+If you are running the Web Application on a remote machine, the URL should be the server's IP address or domain name.
+
+### Use the keys inside the web application
+
+If inside the server `.env` file, you added both the private key and the publick key,inside the Web Application you only need to add the public key.
+Open the `.env` file in the root of the Web Application and add the following key:
+```bash
+VAPID_PUBLIC_KEY=BGtkbcjrO12YMoDuq2sCQeHlu47uPx3SHTgFKZFYiBW8Qr0D9vgyZSZPdw6_4ZFEI9Snk1VEAj2qTYI1I1YxBXE
+```
+
+**Make sure that the public key is the same in both the server and the web application and that they are the ones you have generated.**
