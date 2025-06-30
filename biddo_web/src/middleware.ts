@@ -39,6 +39,11 @@ export function middleware(req: NextRequest) {
     return NextResponse.next()
   }
 
+  // --- Allow public access to /api/hello ---
+  if (req.nextUrl.pathname === '/api/hello') {
+    return NextResponse.next();
+  }
+  // --- Restrict other /api routes as before ---
   if (req.nextUrl.pathname.startsWith(`/api`)) {
     if (
       !req.headers.get('referer')?.includes(process.env.APP_URL || '') &&
@@ -46,7 +51,6 @@ export function middleware(req: NextRequest) {
     ) {
       return NextResponse.json({ message: 'Unauthorized' }, { status: 401 })
     }
-
     return NextResponse.next()
   }
 
