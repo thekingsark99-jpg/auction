@@ -1,10 +1,11 @@
-import React from 'react';
+import { Icon } from '@/components/common/icon'
 
-const NoResults = () => (
-  <div style={{ textAlign: 'center', padding: '2rem', color: '#888' }}>
-    <h2>No Results Found</h2>
-    <p>Try adjusting your search or filter to find what you're looking for.</p>
-  </div>
-);
-
-export default NoResults;
+export const NoResultsAvailable = (props: { title: string; height?: number }) => {
+  const { title, height } = props
+  return (
+    <div className="no-results-container gap-4" style={{ ...(height ? { height } : {}) }}>
+      <Icon type="logo" size={80} />
+      <span>{title}</span>
+    </div>
+  )
+}
