@@ -3,7 +3,7 @@ import { getSettings } from '../../utils/api';
 import use from 'react' // import this line
 
 export default function Challenge({ params }: { params:  tParams }) {
-  const { slug }: {slug: string[]} = use(params) ; // fix this line
+
   return (
     <main>
       <h1>Language: {params.lang}</h1>
