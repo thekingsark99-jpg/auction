@@ -4,6 +4,7 @@ interface PageProps {
   };
 }
 
+// This is correct for a server component in Next.js App Router
 export default function Page({ params }: PageProps) {
   // You can access the language with params.lang
   return (
@@ -14,8 +15,8 @@ export default function Page({ params }: PageProps) {
   );
 }
 
-// If you want to statically generate for multiple languages:
-export async function generateStaticParams() {
+// This is correct for static generation in App Router
+export function generateStaticParams() {
   return [
     { lang: 'en' },
     { lang: 'fr' },
