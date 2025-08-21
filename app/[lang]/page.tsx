@@ -1,9 +1,7 @@
-import { getSettings } from '../../index.ts';
+import { getSettings } from '../../utils/api';
 
-import use from 'react' // import this line
-
-export default function Challenge({ params }: { params:  tParams }) {
-
+export default async function Page({ params }: { params: { lang: string } }) {
+  const settings = await getSettings();
   return (
     <main>
       <h1>Language: {params.lang}</h1>
