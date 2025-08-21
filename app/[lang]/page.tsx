@@ -1,24 +1,19 @@
-interface PageProps {
-  params: {
-    lang: string;
-  };
-}
+import { getSettings } from '../../utils/api';
 
-export default function Page({ params }: PageProps) {
+export default async function Page({ params }: { params: { lang: string } }) {
+  const settings = await getSettings();
   return (
     <main>
       <h1>Language: {params.lang}</h1>
-      {/* Render the rest of your page here */}
+      <pre>{JSON.stringify(settings, null, 2)}</pre>
     </main>
   );
 }
 
-// DO NOT make this async unless you await something!
 export function generateStaticParams() {
   return [
     { lang: 'en' },
     { lang: 'fr' },
-    { lang: 'es' },
-    // Add more supported languages here
+    { lang: 'es' }
   ];
 }
