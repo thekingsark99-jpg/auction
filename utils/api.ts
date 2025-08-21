@@ -4,11 +4,7 @@ export const getCategories = async () => {
       next: { revalidate: 60 },
       method: 'GET',
     });
-
-    if (!response.ok) {
-      throw new Error('Failed to fetch data');
-    }
-
+    if (!response.ok) throw new Error('Failed to fetch data');
     return response.json();
   } catch (error) {
     console.error(`Failed to fetch categories: ${error}`);
@@ -22,11 +18,7 @@ export const getCurrencies = async () => {
       next: { revalidate: 3600 },
       method: 'GET',
     });
-
-    if (!response.ok) {
-      throw new Error('Failed to fetch data');
-    }
-
+    if (!response.ok) throw new Error('Failed to fetch data');
     return response.json();
   } catch (error) {
     console.error(`Failed to fetch currencies: ${error}`);
@@ -40,11 +32,7 @@ export const getPaymentProducts = async () => {
       next: { revalidate: 3600 },
       method: 'GET',
     });
-
-    if (!response.ok) {
-      throw new Error('Failed to fetch data');
-    }
-
+    if (!response.ok) throw new Error('Failed to fetch data');
     return response.json();
   } catch (error) {
     console.error(`Failed to fetch payment products: ${error}`);
@@ -55,15 +43,10 @@ export const getPaymentProducts = async () => {
 export const getExchangeRates = async () => {
   try {
     const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/exchange-rate`, {
-      // Revalidate every 15 minutes
       next: { revalidate: 900 },
       method: 'GET',
     });
-
-    if (!response.ok) {
-      throw new Error('Failed to fetch data');
-    }
-
+    if (!response.ok) throw new Error('Failed to fetch data');
     return response.json();
   } catch (error) {
     console.error(`Failed to fetch exchange rates: ${error}`);
@@ -75,15 +58,9 @@ export const getAvailablePayments = async () => {
   try {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_SERVER_URL}/payment/available-payments`,
-      {
-        method: 'GET',
-      }
+      { method: 'GET' }
     );
-
-    if (!response.ok) {
-      throw new Error('Failed to fetch data');
-    }
-
+    if (!response.ok) throw new Error('Failed to fetch data');
     return response.json();
   } catch (error) {
     console.error(`Failed to fetch available payments: ${error}`);
@@ -97,11 +74,7 @@ export const getSettings = async () => {
       next: { revalidate: 100 },
       method: 'GET',
     });
-
-    if (!response.ok) {
-      throw new Error('Failed to fetch data');
-    }
-
+    if (!response.ok) throw new Error('Failed to fetch data');
     return response.json();
   } catch (error) {
     console.error(`Failed to fetch settings: ${error}`);
