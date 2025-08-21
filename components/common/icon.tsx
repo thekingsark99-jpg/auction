@@ -36,10 +36,6 @@ interface IconProps {
   color?: string
 }
 
-const ErrorComp = () => {
-  return <div>Icon</div>
-}
-
 export const Icon = ({ type, size = 24, rotate, color = 'currentColor' }: IconProps) => {
   // Path to your public SVG
   const src = `/assets/svg/${type}.svg`
