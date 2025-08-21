@@ -1,7 +1,6 @@
 'use client'
 import React from 'react'
 import Link from 'next/link'
-import errorLogo from '../../../public/assets/img/404.png'
 import Image from 'next/image'
 import useGlobalContext from '@/hooks/use-context'
 import { useTranslation } from '@/app/i18n/client'
@@ -25,7 +24,7 @@ export const NotFoundPage = () => {
                         width={500}
                         height={500}
                         style={{ width: 'auto', height: 'auto' }}
-                        src={errorLogo}
+                        src="/assets/img/404.png"
                         alt="error-img"
                       />
                     </div>
