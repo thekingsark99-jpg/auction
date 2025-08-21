@@ -1,4 +1,4 @@
-import { getSettings } from '../../utils/api-utils';
+import { getSettings } from '../../utils';
 
 interface PageProps {
   params: { lang: string }
@@ -19,6 +19,6 @@ export function generateStaticParams() {
   return [
     { lang: 'en' },
     { lang: 'fr' },
-    { lang: 'es' },
+    { lang: 'es' }
   ];
 }
