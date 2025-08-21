@@ -1,7 +1,9 @@
 import { getSettings } from '../../utils/api';
 
-export default async function Page({ params }: { params: { lang: string } }) {
-  const settings = await getSettings();
+import { use } from "react";
+    
+export default function CategoryDetail({params}: {params: Promise<{ id: string }>}) {
+const { id } = use(params);
   return (
     <main>
       <h1>Language: {params.lang}</h1>
