@@ -1,4 +1,4 @@
-import { getSettings } from '../../utils/api';
+import { getSettings } from '../../index.ts';
 
 import use from 'react' // import this line
 
