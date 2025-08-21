@@ -1,13 +1,10 @@
-import { getSettings } from '@/path/to/your/api-utils';
+import { getSettings } from '../../utils/api-utils';
 
 interface PageProps {
-  params: {
-    lang: string;
-  };
+  params: { lang: string }
 }
 
 export default async function Page({ params }: PageProps) {
-  // This is ONLY valid if you want to fetch data on the server
   const settings = await getSettings();
 
   return (
@@ -22,7 +19,6 @@ export function generateStaticParams() {
   return [
     { lang: 'en' },
     { lang: 'fr' },
-    { lang: 'es' }
-    // Add more supported languages here
+    { lang: 'es' },
   ];
 }
