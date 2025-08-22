@@ -1,25 +1,11 @@
-interface PageProps {
-  params: {
-    lang: string;
-  };
+import type { Metadata } from "next"
+
+// make this a promise
+interface Props {
+  params: Promise<{ slug?: string }>;
 }
 
-export default function Page({ params }: PageProps) {
-  // You can access the language with params.lang
-  return (
-    <main>
-      <h1>Language: {params.lang}</h1>
-      {/* Render the rest of your page here */}
-    </main>
-  );
-}
+export async function generateMetadata({ params}: Props): Promise<Metadata> {
+  const { slug } = await params; //await here
 
-// If you want to statically generate for multiple languages:
-export async function generateStaticParams() {
-  return [
-    { lang: 'en' },
-    { lang: 'fr' },
-    { lang: 'es' },
-    // Add more supported languages here
-  ];
 }
