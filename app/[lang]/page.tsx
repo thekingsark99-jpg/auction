@@ -10,12 +10,9 @@ export default async function Page({ params }: { params: { lang: string } }) {
   );
 }
 
-export interface LanguageMetaItem {
-  name: string
-  icon: string
-}
-
-export const LANGUAGES_META: Record<string, LanguageMetaItem> = {
+export function generateStaticParams() {
+  return [
+    
   en: {
     name: 'English',
     icon: 'flags/english1',
