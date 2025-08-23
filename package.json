@@ -14,6 +14,9 @@
       "pre-commit": "pretty-quick --staged && npm run lint"
     }
   },
+  "engines": {
+    "node": ">=18.18.0 <19.0.0"
+  },
   "dependencies": {
     "@smastrom/react-rating": "^1.5.0",
     "@stripe/stripe-js": "^5.2.0",
