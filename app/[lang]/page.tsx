@@ -1,8 +1,8 @@
-type PageProps = {
+type LanguagePageProps = {
   params: { lang: string }
 };
 
-export default function Page({ params }: pageprops) {
+export default function Page({ params }: LanguagePageProps) {
   return (
     <main>
       <h1>Language: {params.lang}</h1>
