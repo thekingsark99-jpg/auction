@@ -9,3 +9,11 @@ export default async function Page({ params }: { params: { lang: string } }) {
     </main>
   );
 }
+
+export function generateStaticParams() {
+  return [
+    { lang: 'en' },
+    { lang: 'fr' },
+    { lang: 'es' }
+  ];
+}
