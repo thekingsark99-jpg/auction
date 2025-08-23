@@ -10,9 +10,13 @@ export default async function Page({ params }: { params: { lang: string } }) {
   );
 }
 
-export function generateStaticParams() {
-  return [
-   en: {
+export interface LanguageMetaItem {
+  name: string
+  icon: string
+}
+
+export const LANGUAGES_META: Record<string, LanguageMetaItem> = {
+  en: {
     name: 'English',
     icon: 'flags/english1',
   },
@@ -77,4 +81,3 @@ export function generateStaticParams() {
     icon: 'flags/ukraine',
   },
 }
-
