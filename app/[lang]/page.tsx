@@ -1,8 +1,11 @@
-export default function Page(props: any) {
-  console.log("Page props:", props);
+type PageProps = {
+  params: { lang: string }
+}
+
+export default function Page({ params }: PageProps) {
   return (
     <main>
-      <h1>Language: {props?.params?.lang}</h1>
+      <h1>Language: {params.lang}</h1>
     </main>
   );
 }
