@@ -1,10 +1,10 @@
 import { getSettings } from '../../utils/api';
 
-type Props = {
+interface LangPageProps {
   params: { lang: string }
-};
+}
 
-export default async function Page({ params }: Props) {
+export default async function Page({ params }: LangPageProps) {
   const settings = await getSettings();
   return (
     <main>
