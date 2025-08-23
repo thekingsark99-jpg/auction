@@ -1,6 +1,8 @@
-import { getSettings } from '../../utils/api';
+interface PageProps {
+  params: { lang: string }
+}
 
-export default async function Page({ params }: { params: { lang: string } }) {
+export default async function Page({ params }: PageProps) {
   const settings = await getSettings();
   return (
     <main>
