@@ -1,6 +1,6 @@
 type PageProps = {
   params: { lang: string }
-}
+};
 
 export default function Page({ params }: PageProps) {
   return (
@@ -9,6 +9,7 @@ export default function Page({ params }: PageProps) {
     </main>
   );
 }
+
 export function generateStaticParams() {
   return [
     { lang: 'en' },
