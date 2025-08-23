@@ -1,5 +1,3 @@
-import { getSettings } from '../../utils/api';
-
 type PageProps = {
   params: { lang: string }
 }
