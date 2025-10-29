@@ -15,7 +15,7 @@
     }
   },
   "engines": {
-    "node": "22.x"
+    "node": "22"
   },
   "dependencies": {
     "@smastrom/react-rating": "^1.5.0",
