@@ -14,6 +14,9 @@
       "pre-commit": "pretty-quick --staged && npm run lint"
     }
   },
+  "engines": {
+    "node": "22.x"
+  },
   "dependencies": {
     "@smastrom/react-rating": "^1.5.0",
     "@stripe/stripe-js": "^5.2.0",
@@ -93,4 +96,4 @@
     "sharp": "^0.33.5",
     "typescript": "^5"
   }
-}
+  }
