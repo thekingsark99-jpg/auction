@@ -1,16 +1,20 @@
-type PageProps = {
-  params: { lang: string }
-};
+// app/[lang]/page.tsx
 
-export default function Page({ params }: PageProps) {
+interface PageProps {
+  params: Promise<{ lang: string }>;
+}
+
+export default async function Page({ params }: PageProps) {
+  const { lang } = await params;
+
   return (
     <main>
-      <h1>Language: {params.lang}</h1>
+      <h1>Language: {lang}</h1>
     </main>
   );
 }
 
-export function generateStaticParams() {
+export async function generateStaticParams() {
   return [
     { lang: 'en' },
     { lang: 'fr' },
