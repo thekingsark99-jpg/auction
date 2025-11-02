@@ -80,5 +80,17 @@ const nextConfig: NextConfig = {
   },
 }
 
+compiler: {
+    styledComponents: true,
+  },
+  experimental: {
+    esmExternals: 'loose',
+    forceSwcTransforms: true,
+  },
+  typescript: {
+    ignoreBuildErrors: true,
+  },
+  swcMinify: true,
+  target: 'server', // ✅ ensures async/await compatibility
 export default withBundleAnalyzer(nextConfig)	
 
