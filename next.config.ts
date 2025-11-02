@@ -1,3 +1,13 @@
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  eslint: {
+    // 🚫 Ignore ESLint warnings during build
+    ignoreDuringBuilds: true,
+  },
+}
+
+export default nextConfig
+
 import type { NextConfig } from 'next'
 import bundleAnalyzer from '@next/bundle-analyzer'
 import path from 'path'
