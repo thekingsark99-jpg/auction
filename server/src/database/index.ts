@@ -1,4 +1,5 @@
-import { Sequelize } from 'sequelize'
+// src/database/index.ts
+import { Sequelize, Options } from 'sequelize'
 import { config } from '../config.js'
 import { Account } from '../modules/accounts/model.js'
 import { Auction } from '../modules/auctions/model.js'
@@ -33,27 +34,53 @@ import { ExchangeRate } from '../modules/exchange-rates/model.js'
 import { WebPaymentProduct } from '../modules/web-payment-products/model.js'
 import { TranslationCache } from '../modules/auxiliary-models/translations-cache.js'
 import { AiResponse } from '../modules/auxiliary-models/ai-responses.js'
-let sequalizee
+
+let sequelizeInstance: Sequelize | null = null
+
+export interface DatabaseConfig extends Options {
+  database: string
+  username: string
+  password: string
+  host: string
+  dialect: 'postgres' | 'mysql' | 'sqlite' | 'mariadb' | 'mssql'
+}
 
 export const DatabaseConnection = {
-  init(databaseConfig) {
-    if (sequalizee) {
+  init(databaseConfig: DatabaseConfig) {
+    if (sequelizeInstance) {
       throw new Error('Sequelize already initialized')
     }
 
-    sequalizee = new Sequelize(databaseConfig)
+    // Initialize Sequelize with pool defaults
+    sequelizeInstance = new Sequelize(databaseConfig, {
+      pool: {
+        max: 5,
+        min: 0,
+        acquire: 30000,
+        idle: 10000,
+      },
+    })
   },
 
   async syncLatestModels() {
-    if (config.APP_ENV !== 'test') {
-      throw new Error('Use migrations when on environment different than the test one')
+    if (!sequelizeInstance) {
+      throw new Error('Sequelize not initialized')
     }
 
-    await sequalizee.sync()
+    if (config.APP_ENV !== 'test') {
+      throw new Error(
+        'Use migrations when on environment different than the test one'
+      )
+    }
+
+    await sequelizeInstance.sync()
   },
 
   getInstance() {
-    return sequalizee
+    if (!sequelizeInstance) {
+      throw new Error('Sequelize not initialized')
+    }
+    return sequelizeInstance
   },
 
   initializeModels() {
