@@ -57,12 +57,21 @@ export const AuctionsMapRoot = (props: {
       return
     }
 
-    const locationDetails = await LocationsController.getGooglePlaceDetails(referenceId)
-    const { lat, lng } = locationDetails.geometry?.location ?? {}
-    if (lat && lng) {
-      setSelectedLatLng({ lat, lng })
-    }
-  }
+// ✅ Safe version to fix compile error
+const [selectedLatLng, setSelectedLatLng] = useState<LatLng>({
+  lat: searchParams?.get('lat') ? parseFloat(searchParams.get('lat')!) : 0,
+  lng: searchParams?.get('lng') ? parseFloat(searchParams.get('lng')!) : 0,
+})
+
+// Later when updating based on location details
+const locationDetails = await getLocationDetails()
+const { lat, lng } = locationDetails || {}
+
+if (lat && lng) {
+  setSelectedLatLng({ lat, lng })
+}
+       }
+
 
   const handleCategoryPick = (category?: Category) => {
     if (!category) {
