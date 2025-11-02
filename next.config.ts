@@ -1,13 +1,3 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {
-  eslint: {
-    // 🚫 Ignore ESLint warnings during build
-    ignoreDuringBuilds: true,
-  },
-};
-
-export default nextConfig
-
 import type { NextConfig } from 'next'
 import bundleAnalyzer from '@next/bundle-analyzer'
 import path from 'path'
@@ -17,6 +7,11 @@ const withBundleAnalyzer = bundleAnalyzer({
 })
 
 const nextConfig: NextConfig = {
+  // ✅ Ignore ESLint warnings during build
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
+
   images: {
     unoptimized: true,
     minimumCacheTTL: 3600,
@@ -32,6 +27,7 @@ const nextConfig: NextConfig = {
     ],
     domains: [],
   },
+
   async headers() {
     return [
       {
@@ -68,7 +64,9 @@ const nextConfig: NextConfig = {
       },
     ]
   },
+
   transpilePackages: ['next-themes', 'cookies-next'],
+
   webpack(config) {
     config.module.rules.push({
       test: /\.svg$/,
@@ -82,4 +80,5 @@ const nextConfig: NextConfig = {
   },
 }
 
-export default withBundleAnalyzer(nextConfig)
+export default withBundleAnalyzer(nextConfig)	
+
