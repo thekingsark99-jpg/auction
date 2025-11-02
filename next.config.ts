@@ -4,7 +4,7 @@ const nextConfig = {
     // 🚫 Ignore ESLint warnings during build
     ignoreDuringBuilds: true,
   },
-}
+};
 
 export default nextConfig
 
